@@ -1,30 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './DragAndDrop.css';
 
-const DragAndDrop = () => {
+const DragAndDrop = (props) => {
+
+    const [isDragging, setIsDragging] = useState(false);
+
+    const hasFilesDragged = (e) => e.dataTransfer.items && e.dataTransfer.items.length > 0;
 
     const handleDrop = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(() => false);
+        if (hasFilesDragged(e)) {
+            props.handleDrop(e.dataTransfer.files);
+            e.dataTransfer.clearData();
+        }
     };
 
     const handleDragOver = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
     };
 
     const handleDragEnter = (e) => {
-        console.log(e);
+        e.preventDefault();
+        e.stopPropagation();
+        if (hasFilesDragged(e)) {
+            setIsDragging(() => true);
+        }
     };
 
     const handleDragLeave = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsDragging(() => false);
     };
 
     return (
-        <div className="container"
+        <div className={isDragging ? "drag-container drag-container-focus" : "drag-container"}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
         >
-            <div className="icon-container"></div>
-            <h2 className="description-title">Drag and drop your video here</h2>
+            <div className="drag-icon-container">
+                <img className={isDragging ? "drag-icon drag-icon-scale" : "drag-icon"}
+                 src="/assets/folder.png" alt="Folder icon"/>
+            </div>
+            <h2 className={isDragging ? "drag-title drag-title-disappear" : "drag-title"}>Drag and drop your video here</h2>
         </div>
     );
 };

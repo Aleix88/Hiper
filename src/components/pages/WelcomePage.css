@@ -6,6 +6,7 @@
     justify-content: center;
 }
 
-h2 {
+.welcome-title {
     text-align: center;
+    font-size: 26px;
 }

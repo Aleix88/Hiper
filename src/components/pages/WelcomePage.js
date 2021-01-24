@@ -7,10 +7,10 @@ const WelcomePage = () => {
 
     return (
         <div className="welcome-page">
-            <h2>Upload your video file</h2>
+            <p className="welcome-title">Upload your video file</p>
             <DragAndDrop></DragAndDrop>
-            <h2>choose a video from youtube</h2>
-            <h2>or <Link>open an existing project</Link></h2>
+            <p className="welcome-title">choose a video from youtube</p>
+            <p className="welcome-title">or <Link>open an existing project</Link></p>
         </div>
     );
 
