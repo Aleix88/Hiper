@@ -1,0 +1,18 @@
+.round-tf-container {
+    padding: 0.3em 0.5em;
+    background-color: var(--nav-gray);
+    border: 2px solid var(--border-gray);
+    border-radius: 100px;
+    text-align: center;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.round-tf-input {
+    border: none;
+    background-color: rgba(0,0,0,0);
+    font-size: 20px;
+    outline: none; 
+    text-align: center;
+    width: 90%;
+}
