@@ -3,7 +3,9 @@ import React from 'react';
 const EditorPage = () => {
 
     return (
-        "Editor page"
+        <div className="editor-page">
+
+        </div>
     );
 
 };

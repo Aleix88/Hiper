@@ -1,0 +1,12 @@
+.container {
+    background-color: var(--nav-gray);
+    border: 2px dashed var(--border-gray);
+    padding: 2em;
+    max-width: 400px;
+    margin: 0 auto;
+    color: #818181;
+}
+
+.description-title {
+    margin: 0;
+}

@@ -9,7 +9,9 @@ function App() {
     <div className="app">
       <Router>
         <SideNavBar/>
-        <WelcomePage/>
+        <div className="main">
+          <WelcomePage/>
+        </div>
       </Router>
     </div>
   );
