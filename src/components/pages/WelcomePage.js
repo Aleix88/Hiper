@@ -3,6 +3,7 @@ import './WelcomePage.css';
 import DragAndDrop from '../DragAndDrop';
 import RoundTextField from '../RoundTextField';
 import FileManager from '../../utils/FileManager';
+import MainButton from '../MainButton';
 
 const WelcomePage = () => {
 
@@ -18,7 +19,9 @@ const WelcomePage = () => {
             <p className="welcome-title">Upload your video file</p>
             <DragAndDrop text="Drag and drop your mp4 file" handleDrop={handleVideoFile}/>
             <p className="welcome-title">choose a video from youtube</p>
-            <RoundTextField placeholder="www.youtube.com/1234"/>
+            <RoundTextField className="youtube-tf" placeholder="Youtube video ID">
+                <MainButton title="DONE" disabled={false} href=""/>
+            </RoundTextField>
         </div>
     );
 

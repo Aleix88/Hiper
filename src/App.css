@@ -1,7 +1,9 @@
 :root {
+  --clear: rgba(0,0,0,0);
   --bg-gray: #E6E6E6;
   --nav-gray: #F2F2F2;
   --border-gray: #CDCDCD;
+  --link-blue: #277EF6;
 }
 
 body {

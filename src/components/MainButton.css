@@ -1,0 +1,26 @@
+.main-button,
+.main-button-link {
+    text-decoration: none;
+    border: none;
+    outline: none;
+    background: var(--link-blue);
+    padding: 0.7em 1.5em;
+    border-radius: 100px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    transform:  perspective(1000px) translateZ(0px);
+    font-size: 15px;
+}
+
+.main-button:focus,
+.main-button-link:focus,
+.main-button:hover,
+.main-button-link:hover {
+    transform:  perspective(1000px) translateZ(100px);
+}
+
+.main-button-disabled {
+    background-color: #818181;
+}
