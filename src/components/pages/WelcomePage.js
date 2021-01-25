@@ -6,8 +6,11 @@ import FileManager from '../../utils/FileManager';
 
 const WelcomePage = () => {
 
-    const handleVideoFile = () => {
-        FileManager.showSaveDialog();
+    const handleVideoFile = (files) => {
+        FileManager.showSaveDialog("Choose your project folder...")
+        .then((path) => {
+            console.log(path)
+        });
     };
 
     return (

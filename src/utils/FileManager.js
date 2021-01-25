@@ -19,13 +19,14 @@ const isYoutubeURLValid = (url) => {
 
 };
 
-const showSaveDialog = () => {
+const showSaveDialog = async (title, onSave) => {
     const options = {
-        defaultPath: app.getPath('documents')
+        defaultPath: app.getPath('documents'),
+        title: title
     };
-    dialog.showSaveDialog(null, options, (path) => {
-        console.log(path);
-    });
+    const result = await dialog.showSaveDialog(null, options);
+    if (result == null) return null;
+    return result.filePath;
 };
 
 const fileManager = {
