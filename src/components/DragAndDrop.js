@@ -47,7 +47,7 @@ const DragAndDrop = (props) => {
                 <img className={isDragging ? "drag-icon drag-icon-scale" : "drag-icon"}
                  src="/assets/folder.png" alt="Folder icon"/>
             </div>
-            <h2 className={isDragging ? "drag-title drag-title-disappear" : "drag-title"}>Drag and drop your video here</h2>
+            <h2 className={isDragging ? "drag-title drag-title-disappear" : "drag-title"}>{props.text}</h2>
         </div>
     );
 };
