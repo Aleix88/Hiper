@@ -15,7 +15,12 @@ const MainButton = (props) => {
         );
     } else {
         return (
-            <button className={props.disabled ? "main-button main-button-disabled" : "main-button"}>{props.title}</button>
+            <button 
+                className={props.disabled ? "main-button main-button-disabled" : "main-button"}
+                onClick={props.handleClick}
+            >
+                {props.title}
+            </button>
         );
     }
 
