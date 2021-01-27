@@ -25,8 +25,7 @@ const showSaveDialog = async (title, onSave) => {
         title: title
     };
     const result = await dialog.showSaveDialog(null, options);
-    if (result == null) return null;
-    return result.filePath;
+    return [result.filePath, result.canceled];
 };
 
 const fileManager = {
