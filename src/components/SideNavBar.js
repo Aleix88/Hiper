@@ -2,7 +2,7 @@ import React from 'react';
 
 const SideNavBar = () => {
     return (
-        <nav>
+        <nav className="app-section">
             
         </nav>
     );

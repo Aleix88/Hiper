@@ -1,8 +1,7 @@
 const electron = window.require('electron');
 const app = electron.remote.app;
 const dialog = electron.remote.dialog;
-
-const validVideoExtensions = ['mp4'];
+const fs = electron.remote.require('fs');
 
 const getFileExtension = (fileName) => {
     let parts = fileName.split('.');
@@ -10,28 +9,42 @@ const getFileExtension = (fileName) => {
     return parts[parts.length - 1];
 };
 
-const isVideoFileValid = (file) => {
-    const extension = getFileExtension(file);
-    return validVideoExtensions.includes(extension.toLowerCase());
-};
-
 const isYoutubeURLValid = (url) => {
-
+    return url != null && url.length > 0;
 };
 
-const showSaveDialog = async (title, onSave) => {
+const saveFile = (from, to) => {
+    return new Promise((resolve, reject) => {
+            fs.copyFile(from, to, (err) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+    });
+};
+
+const showSaveDialog = async (title, nameFieldLabel, buttonLabel, defaultPath) => {
     const options = {
-        defaultPath: app.getPath('documents'),
-        title: title
+        defaultPath: app.getPath(defaultPath),
+        title: title,
+        buttonLabel: buttonLabel,
+        nameFieldLabel: nameFieldLabel
     };
     const result = await dialog.showSaveDialog(null, options);
-    return [result.filePath, result.canceled];
+    if (result.canceled) {
+        return Promise.reject();
+    } else {
+        return Promise.resolve(result.filePath);
+    }
 };
 
 const fileManager = {
-    isVideoFileValid: isVideoFileValid,
     isYoutubeURLValid: isYoutubeURLValid,
-    showSaveDialog: showSaveDialog
+    showSaveDialog: showSaveDialog,
+    getFileExtension: getFileExtension,
+    saveFile: saveFile
 };
 
 export default fileManager;

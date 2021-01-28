@@ -6,12 +6,16 @@ import FileManager from '../../utils/FileManager';
 import MainButton from '../MainButton';
 import { Redirect } from 'react-router-dom';
 
+const validVideoExtensions = ['mp4'];
+const validImageExtensions = ['jpg', 'png'];
+
 const WelcomePage = () => {
 
     const [state, setState] = useState({
         needsToRedirect: false,
         youtubeError: "",
-        fileError: ""
+        fileError: "",
+        youtubeURL: ""
     });
 
     const setRedirect = (needsToRedirect) => {
@@ -43,29 +47,43 @@ const WelcomePage = () => {
 
     const handleVideoFile = (files) => {
         const file = files[0];
-        if (FileManager.isVideoFileValid(file.name)) {
-            FileManager.showSaveDialog("Choose your project folder...")
-            .then(([path, canceled]) => {
-                if (canceled) return;
-                if (path != null && path.length > 0) {
+        const filePath = file.path;
+        const extension = FileManager.getFileExtension(file.name);
+        if (validVideoExtensions.includes(extension) || validImageExtensions.includes(extension)) {
+            FileManager.showSaveDialog("Create your project folder...", "Project name:", "Create", "documents")
+            .then((path) => {
+                FileManager.saveFile(filePath, path)
+                .then(() => {
                     setRedirect(true);
-                } else {
-                    setFileError("Error creating the project. Please notify the problem to the developer.")
-                }
-            });
+                })
+                .catch(()=>{});
+            }).catch(()=>{});
         } else {
             setFileError("File error: make sure that the video format is MP4.")
         }
     };
 
     const handleYoutubeURL = () => {
-        setRedirect(true);
+        if (FileManager.isYoutubeURLValid(state.youtubeURL)) {
+            setRedirect(true);
+        } else {
+            setYoutubeError("Please enter a youtube ID");
+        }
     };
 
     const renderRedirect = () => {
         if (state.needsToRedirect) {
             return <Redirect to="/editor"/>;
         }
+    };
+
+    const handleTFChange = (value) => {
+        setState((prevState) => {
+            return {
+                ...prevState,
+                youtubeURL: value
+            };
+        });
     };
 
     return (
@@ -75,7 +93,7 @@ const WelcomePage = () => {
             <DragAndDrop text="Drag and drop your mp4 file" handleDrop={handleVideoFile}/>
             <p className="error-text">{state.fileError}</p>
             <p className="welcome-title">choose a video from youtube</p>
-            <RoundTextField className="youtube-tf" placeholder="Youtube video ID">
+            <RoundTextField className="youtube-tf" placeholder="Youtube video ID" handleChange={handleTFChange}>
                 <MainButton title="DONE" disabled={false} handleClick={handleYoutubeURL}/>
             </RoundTextField>
             <p className="error-text">{state.youtubeError}</p>
