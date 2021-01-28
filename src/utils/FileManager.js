@@ -13,6 +13,18 @@ const isYoutubeURLValid = (url) => {
     return url != null && url.length > 0;
 };
 
+const createFolder = (folder) => {
+    return new Promise((resolve, reject) => {
+        fs.mkdir(folder, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(folder);
+            }
+        });
+    });
+};
+
 const saveFile = (from, to) => {
     return new Promise((resolve, reject) => {
             fs.copyFile(from, to, (err) => {
@@ -44,7 +56,8 @@ const fileManager = {
     isYoutubeURLValid: isYoutubeURLValid,
     showSaveDialog: showSaveDialog,
     getFileExtension: getFileExtension,
-    saveFile: saveFile
+    saveFile: saveFile,
+    createFolder: createFolder
 };
 
 export default fileManager;

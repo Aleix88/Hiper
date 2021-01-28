@@ -45,19 +45,30 @@ const WelcomePage = () => {
         });
     }
 
+    const createProject = (file) => {
+        FileManager.showSaveDialog("Create your project folder...", "Project name:", "Create", "documents")
+        .then((destPath) => {
+            return FileManager.createFolder(destPath);
+        })
+        .then((destPath) => {
+            if (file == null) {
+                return Promise.resolve();
+            }
+            return FileManager.saveFile(file.path, destPath + "/" + file.name);
+        })
+        .then(() => {
+            setRedirect(true);
+        })
+        .catch(()=>{
+            setFileError("Error saving the file. Try with another project folder name.");
+        });
+    };
+
     const handleVideoFile = (files) => {
         const file = files[0];
-        const filePath = file.path;
         const extension = FileManager.getFileExtension(file.name);
         if (validVideoExtensions.includes(extension) || validImageExtensions.includes(extension)) {
-            FileManager.showSaveDialog("Create your project folder...", "Project name:", "Create", "documents")
-            .then((path) => {
-                FileManager.saveFile(filePath, path)
-                .then(() => {
-                    setRedirect(true);
-                })
-                .catch(()=>{});
-            }).catch(()=>{});
+            createProject(file, false);
         } else {
             setFileError("File error: make sure that the video format is MP4.")
         }
