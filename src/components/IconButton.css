@@ -1,0 +1,11 @@
+.button-icon-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.button-icon {
+    width: 100%;
+    height: 100%;
+}

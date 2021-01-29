@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './DragAndDrop.css';
+import folderIcon from '../assets/folder.png';
 
 const DragAndDrop = (props) => {
 
@@ -45,7 +46,7 @@ const DragAndDrop = (props) => {
         >
             <div className="drag-icon-container">
                 <img className={isDragging ? "drag-icon drag-icon-scale" : "drag-icon"}
-                 src="/assets/folder.png" alt="Folder icon"/>
+                 src={folderIcon} alt="Folder icon"/>
             </div>
             <h2 className={isDragging ? "drag-title drag-title-disappear" : "drag-title"}>{props.text}</h2>
         </div>

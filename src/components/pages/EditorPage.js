@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
+import Hypervideo from '../Hypervideo';
 import './EditorPage.css';
 
 const EditorPage = () => {
@@ -10,8 +11,8 @@ const EditorPage = () => {
 
             </div>
             <div className="editor-main">
-                <Link to="/">Home</Link>
-                Main
+                {/* <Link to="/">Home</Link> */}
+                <Hypervideo></Hypervideo>
             </div>
             <div className="config-inspector app-section">
                 Inspector
