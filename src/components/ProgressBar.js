@@ -1,37 +1,71 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './ProgressBar.css';
 
 const ProgressBar = () => {
 
+    const containerRef = useRef(null);
+
     const [state, setState] = useState({
-        dragStart: false
+        dragStart: false,
+        progress: 0
     });
 
     const onMouseDown = (event) => {
-        console.log("down")
         setState((prevState) => {return {...prevState, dragStart: true}});
     };
 
     const onMouseUp = (event) => {
-        console.log("Up")
         setState((prevState) => {return {...prevState, dragStart: false}});
-    }
+        calculateBarPosition(event.clientX);
+    };
 
     const onMouseMove = (event) => {
-        if (!state.dragStart) {return;}
-        console.log("Move")
-    }
+        setState((prevState) => {
+            if (prevState.dragStart) {
+                calculateBarPosition(event.clientX);
+            }
+            return prevState;
+        });
+    };
+
+    const calculateBarPosition = (clientX) => {
+        const containerRect = containerRef.current.getBoundingClientRect();
+        const currentX = clientX - containerRect.x;
+        let progress = currentX / containerRect.width;
+        progress = progress < 0 ? 0 : progress;
+        progress = progress > 1 ? 1: progress;
+        progress = Math.floor(progress * 100);
+        setState((prevState) => {return {...prevState, progress: progress}})
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+        return () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        };
+    }, []);
 
     return (
         <div className="progress-bar-container" 
             onMouseDown={onMouseDown}
-            onMouseUp={onMouseUp}
-            onMouseMove={onMouseMove}
+            ref={containerRef}
         >
             <div className="progress-bar">
-                <div className="progress-bar-current"/>
+                <div 
+                    className="progress-bar-current"
+                    style={{
+                        width: state.progress + "%"
+                    }}
+                />
             </div>
-            <div className="progress-cursor"/>
+            <div 
+                className="progress-cursor"
+                style={{
+                    left: state.progress + "%"
+                }}
+            />
         </div>
     );
 
