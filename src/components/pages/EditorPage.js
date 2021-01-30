@@ -12,7 +12,7 @@ const EditorPage = () => {
             </div>
             <div className="editor-main">
                 {/* <Link to="/">Home</Link> */}
-                <Hypervideo></Hypervideo>
+                <Hypervideo src="2g811Eo7K8U" isFromYoutube={true}></Hypervideo>
             </div>
             <div className="config-inspector app-section">
                 Inspector

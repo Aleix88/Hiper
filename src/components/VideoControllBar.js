@@ -3,6 +3,7 @@ import './VideoControllBar.css';
 import IconButton from './IconButton';
 import playIcon from '../assets/play.png';
 import ProgressBar from './ProgressBar';
+import TimeCounter from './TimeCounter';
 
 const VideoControllBar = (props) => {
 
@@ -20,7 +21,20 @@ const VideoControllBar = (props) => {
                     height: "10px"
                 }}
                 />
-                <ProgressBar/>
+                <ProgressBar 
+                    style={{
+                        width: "80%",
+                        marginLeft: "10px",
+                        marginRight: "10px"
+                    }}
+                />
+                <TimeCounter
+                    currentTime={100}
+                    duration={1200}
+                    style={{
+                        display: "inline-block"
+                    }}
+                />
         </div>
     );
 

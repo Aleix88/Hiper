@@ -1,0 +1,5 @@
+.time-text {
+    color: white;
+    -webkit-line-clamp: 1;
+    margin: auto;
+}

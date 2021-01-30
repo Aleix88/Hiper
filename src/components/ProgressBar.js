@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './ProgressBar.css';
 
-const ProgressBar = () => {
+const ProgressBar = (props) => {
 
     const containerRef = useRef(null);
 
@@ -16,8 +16,11 @@ const ProgressBar = () => {
 
     const onMouseUp = (event) => {
         setState((prevState) => {return {...prevState, dragStart: false}});
-        calculateBarPosition(event.clientX);
     };
+
+    const onClick = (event) => {
+        calculateBarPosition(event.clientX);
+    }
 
     const onMouseMove = (event) => {
         setState((prevState) => {
@@ -50,7 +53,9 @@ const ProgressBar = () => {
     return (
         <div className="progress-bar-container" 
             onMouseDown={onMouseDown}
+            onClick={onClick}
             ref={containerRef}
+            style={props.style}
         >
             <div className="progress-bar">
                 <div 
