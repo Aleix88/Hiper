@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Hypervideo.css';
 import VideoControllBar from './VideoControllBar';
 import YouTube from 'react-youtube';
+import VideoWrapper from './VideoWrapper';
 
 const Hypervideo = (props) => {
 
@@ -23,26 +24,48 @@ const Hypervideo = (props) => {
         }
     };
 
+    const [state, setState] = useState({
+        player: null
+    });
+    
+    const onReady = (event) => {
+        setState((prevState) => {return {...prevState, player: event.target};})
+    }
+
+    const onPlay = () => {
+        setState((prevState) => {
+            prevState.player.playVideo();
+            return prevState;
+        })
+    };
+    
     const videoElement = (
         props.isFromYoutube ?
         <YouTube 
-        className="video"
-        videoId={props.src}
-        opts={youtubeOpts} 
+            className="video"
+            videoId={props.src}
+            opts={youtubeOpts} 
+            onReady={onReady}
         />
         :
-        <video className="video" src={props.src}/>        
+        <VideoWrapper 
+            className="video" 
+            src={props.src}
+            onReady={onReady}
+        />        
     );
+    
+    
 
     return (
         <div className="hypervideo">
             <div className="hypervideo-content">
                 {videoElement}
                 <div className="tag-container">
-                    Eiii
+                    
                 </div>
             </div>
-            <VideoControllBar/>
+            <VideoControllBar onPlay={onPlay}/>
         </div>
     );
 

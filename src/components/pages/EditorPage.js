@@ -2,6 +2,7 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import Hypervideo from '../Hypervideo';
 import './EditorPage.css';
+import videoTest from '../../assets/video.mp4';
 
 const EditorPage = () => {
 
@@ -12,7 +13,7 @@ const EditorPage = () => {
             </div>
             <div className="editor-main">
                 {/* <Link to="/">Home</Link> */}
-                <Hypervideo src="2g811Eo7K8U" isFromYoutube={true}></Hypervideo>
+                <Hypervideo src={videoTest} isFromYoutube={false}></Hypervideo>
             </div>
             <div className="config-inspector app-section">
                 Inspector

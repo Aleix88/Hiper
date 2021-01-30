@@ -8,7 +8,7 @@ import TimeCounter from './TimeCounter';
 const VideoControllBar = (props) => {
 
     const handlePlay = () => {
-        props.playClicked();
+        props.onPlay();
     };
 
     return (
