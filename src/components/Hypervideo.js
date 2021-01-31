@@ -17,6 +17,7 @@ class Hypervideo extends React.Component {
         };
         this.controllersRef = React.createRef();
         this.videoTimer = new VideoTimer(this.__timeHandler.bind(this));
+        this.__handleProgressFixed = this.__handleProgressFixed.bind(this);
     }
 
     static PLAYING = 1;
@@ -57,12 +58,15 @@ class Hypervideo extends React.Component {
         }
     }
 
-    __handleProgressChange(progress) {
+    __handleProgressFixed(progress) {
         this.player.seekTo(this.state.duration * (progress/100), true);
-        const currentTime = this.player.getCurrentTime();
+    }
+
+    __handleProgressChange(progress) {
+        this.player.pauseVideo();
+        const currentTime = this.state.duration * (progress/100);
         this.setState((prevState) => {return {...prevState, videoTime: currentTime};});
         this.controllersRef.current.timeUpdated();
-        this.player.pauseVideo();
     }
 
     render() {
@@ -117,6 +121,7 @@ class Hypervideo extends React.Component {
                     duration={this.state.duration}
                     ref={this.controllersRef}
                     handleProgressChange={p => this.__handleProgressChange(p)}
+                    handleProgressFixed={this.__handleProgressFixed}
                 />
             </div>
         );    

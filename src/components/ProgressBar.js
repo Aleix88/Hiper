@@ -26,7 +26,9 @@ class ProgressBar extends React.Component {
     };
 
     onClick(event) {
-        this.calculateBarPosition(event.clientX);
+        const progress = this.calculateBarPosition(event.clientX);
+        this.props.onProgressFixed(progress);
+
     }
 
     onMouseMove(event) {
@@ -44,6 +46,7 @@ class ProgressBar extends React.Component {
         progress = Math.floor(progress * 100);
         this.setState((prevState) => {return {...prevState, progress: progress}})
         this.props.handleChange(progress);
+        return progress;
     };
 
     lengthUpdated() {

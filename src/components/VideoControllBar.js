@@ -45,6 +45,7 @@ class VideoControllBar extends Component {
                         maxLength={this.props.duration}
                         currentLength={this.state.currentTime}
                         handleChange={this.props.handleProgressChange}
+                        onProgressFixed={this.props.handleProgressFixed}
                     />
                     <TimeCounter
                         currentTime={Math.round(this.state.currentTime)}
