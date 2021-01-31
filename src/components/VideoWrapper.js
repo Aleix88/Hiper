@@ -18,8 +18,11 @@ class VideoWrapper extends React.Component {
         this.videoRef.current.pause();
     }
 
+    seekTo(time) {
+        this.videoRef.current.currentTime = time;
+    }
+
     onLoadedData(e) {
-        console.log("Ready")
         e.target = this;
         this.props.onReady(e);
     }

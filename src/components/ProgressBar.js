@@ -1,79 +1,95 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './ProgressBar.css';
 
-const ProgressBar = (props) => {
+class ProgressBar extends React.Component {
 
-    const containerRef = useRef(null);
-
-    const [state, setState] = useState({
-        dragStart: false,
-        progress: 0
-    });
-
-    const onMouseDown = (event) => {
-        setState((prevState) => {return {...prevState, dragStart: true}});
-    };
-
-    const onMouseUp = (event) => {
-        setState((prevState) => {return {...prevState, dragStart: false}});
-    };
-
-    const onClick = (event) => {
-        calculateBarPosition(event.clientX);
+    constructor(props) {
+        super(props);
+        this.state = {
+            dragStart: false,
+            progress: 0
+        };
+        this.containerRef = React.createRef();
+        this.calculateBarPosition = this.calculateBarPosition.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseUp = this.onMouseUp.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
-    const onMouseMove = (event) => {
-        setState((prevState) => {
-            if (prevState.dragStart) {
-                calculateBarPosition(event.clientX);
-            }
-            return prevState;
-        });
+    onMouseDown(event) {
+        this.setState((prevState) => {return {...prevState, dragStart: true}});
     };
 
-    const calculateBarPosition = (clientX) => {
-        const containerRect = containerRef.current.getBoundingClientRect();
+    onMouseUp(event) {
+        this.setState((prevState) => {return {...prevState, dragStart: false}});
+    };
+
+    onClick(event) {
+        this.calculateBarPosition(event.clientX);
+    }
+
+    onMouseMove(event) {
+        if (this.state.dragStart) {
+            this.calculateBarPosition(event.clientX);
+        }
+    };
+
+    calculateBarPosition(clientX) {
+        const containerRect = this.containerRef.current.getBoundingClientRect();
         const currentX = clientX - containerRect.x;
         let progress = currentX / containerRect.width;
         progress = progress < 0 ? 0 : progress;
         progress = progress > 1 ? 1: progress;
         progress = Math.floor(progress * 100);
-        setState((prevState) => {return {...prevState, progress: progress}})
+        this.setState((prevState) => {return {...prevState, progress: progress}})
+        this.props.handleChange(progress);
     };
 
-    useEffect(() => {
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-        return () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.addEventListener('mouseup', onMouseUp);
-        };
-    }, []);
+    lengthUpdated() {
+        const currentLength = this.props.currentLength;
+        let length = currentLength > this.props.maxLength ? this.props.maxLength : currentLength;
+        length = currentLength < 0 ? 0 : currentLength;
+        const currentProgress = Math.round((parseFloat(length) / parseFloat(this.props.maxLength)) * 100); 
+        this.setState((prevState) => {return {...prevState, progress: currentProgress}})
+    }
 
-    return (
-        <div className="progress-bar-container" 
-            onMouseDown={onMouseDown}
-            onClick={onClick}
-            ref={containerRef}
-            style={props.style}
-        >
-            <div className="progress-bar">
+    componentDidMount() {
+        document.addEventListener('mousemove', this.onMouseMove);
+        document.addEventListener('mouseup', this.onMouseUp);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousemove', this.onMouseMove);
+        document.addEventListener('mouseup', this.onMouseUp);
+    }
+
+    render() {
+        return (
+            <div className="progress-bar-container" 
+                onMouseDown={this.onMouseDown}
+                onClick={this.onClick}
+                ref={this.containerRef}
+                style={this.props.style}
+            >
+                <div className="progress-bar">
+                    <div 
+                        className="progress-bar-current"
+                        style={{
+                            width: this.state.progress + "%"
+                        }}
+                    />
+                </div>
                 <div 
-                    className="progress-bar-current"
+                    className="progress-cursor"
                     style={{
-                        width: state.progress + "%"
+                        left: this.state.progress + "%"
                     }}
                 />
             </div>
-            <div 
-                className="progress-cursor"
-                style={{
-                    left: state.progress + "%"
-                }}
-            />
-        </div>
-    );
-
-};
+        );
+    }
+    
+}
 
 export default ProgressBar;
