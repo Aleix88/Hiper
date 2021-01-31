@@ -7,14 +7,23 @@ class TimeCounter extends React.Component {
         super(props);
     }
 
+    __secondsToString(seconds) {
+        const hours = Math.floor(this.props.currentTime/3600);
+        const min = Math.floor((seconds - (hours * 3600)) / 60).toString().padStart(2, "0");
+        const sec = (seconds - (hours * 3600) - (min * 60)).toString().padStart(2, "0");
+        return hours <= 0 ? min + ":" + sec : hours + ":" + min + ":" + sec;
+    }
+
     render() {
+
+
         return (
-            <p 
+            <div 
                 className="time-text"
                 style={this.props.style}
             >
-                {this.props.currentTime} / {this.props.duration}
-            </p>
+                {this.__secondsToString(this.props.currentTime)} / {this.__secondsToString(this.props.duration)}
+            </div>
         );
     }
 

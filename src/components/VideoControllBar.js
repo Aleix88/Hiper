@@ -24,14 +24,14 @@ const VideoControllBar = (props) => {
                 />
                 <ProgressBar 
                     style={{
-                        width: "80%",
+                        maxWidth: "80%",
                         marginLeft: "10px",
                         marginRight: "10px"
                     }}
                 />
                 <TimeCounter
-                    currentTime={100}
-                    duration={1200}
+                    currentTime={Math.round(props.currentTime)}
+                    duration={Math.round(props.duration)}
                     style={{
                         display: "inline-block"
                     }}

@@ -19,12 +19,21 @@ class VideoWrapper extends React.Component {
     }
 
     onLoadedData(e) {
+        console.log("Ready")
         e.target = this;
         this.props.onReady(e);
     }
     
     getPlayerState() {
         return this.videoRef.current.paused ? Hypervideo.PAUSED : Hypervideo.PLAYING;
+    }
+
+    getCurrentTime() {
+        return this.videoRef.current.currentTime;
+    }
+
+    getDuration() {
+        return this.videoRef.current.duration;
     }
 
     __onStateChange(e, state) {
@@ -37,8 +46,8 @@ class VideoWrapper extends React.Component {
             <video 
                 src={this.props.src} 
                 className={this.props.className} 
-                onLoadedData={e => this.onLoadedData(e)}
                 ref={this.videoRef}
+                onLoadedData={e => this.onLoadedData(e)}
                 onPause={e => this.__onStateChange(e, Hypervideo.PAUSED)}
                 onPlay={e => this.__onStateChange(e, Hypervideo.PLAYING)}
             />

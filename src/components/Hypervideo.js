@@ -3,6 +3,7 @@ import './Hypervideo.css';
 import VideoControllBar from './VideoControllBar';
 import YouTube from 'react-youtube';
 import VideoWrapper from './VideoWrapper';
+import VideoTimer from '../utils/VideoTimer';
 
 class Hypervideo extends React.Component {
 
@@ -10,37 +11,48 @@ class Hypervideo extends React.Component {
         super(props);
         this.state = {
             player: null,
-            isPlaying: false
+            isPlaying: false,
+            videoTime: 0,
+            duration: 0
         };
+        this.videoTimer = new VideoTimer(this.__timeHandler.bind(this));
     }
 
     static PLAYING = 1;
     static PAUSED = 2;
 
     __onReady = (event) => {
-        console.log(this)
-        this.setState((prevState) => {return {...prevState, player: event.target};});
+        this.player = event.target;
+        const duration = this.player.getDuration();
+        console.log(duration)
+        this.setState((prevState) => {return {...prevState, duration: duration};});
+    }
+
+    __timeHandler() {
+        const currentTime = this.player.getCurrentTime();
+        this.setState((prevState) => {return {...prevState, videoTime: currentTime};});
     }
 
     isPlaying = () => {
-        return this.state.player.getPlayerState() === Hypervideo.PLAYING;
+        return this.player.getPlayerState() === Hypervideo.PLAYING;
     };
 
     __onPlay = () => {
         if (this.isPlaying()) {
-            this.state.player.pauseVideo();
+            this.player.pauseVideo();
         } else {
-            this.state.player.playVideo();
+            this.player.playVideo();
         }
     };
 
     __onStateChange(event) {
-        console.log(this);
         const state = event.data;
         if(state === Hypervideo.PLAYING) {
             this.setState((prevState) => {return {...prevState, isPlaying: true};});
+            this.videoTimer.play();
         } else if (state === Hypervideo.PAUSED) {
             this.setState((prevState) => {return {...prevState, isPlaying: false};});
+            this.videoTimer.pause();
         }
     }
 
@@ -92,6 +104,8 @@ class Hypervideo extends React.Component {
                 <VideoControllBar 
                     onPlay={this.__onPlay}
                     isPlaying={this.state.isPlaying}
+                    currentTime={this.state.videoTime}
+                    duration={this.state.duration}
                 />
             </div>
         );    
