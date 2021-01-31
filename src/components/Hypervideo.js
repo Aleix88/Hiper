@@ -13,7 +13,8 @@ class Hypervideo extends React.Component {
             player: null,
             isPlaying: false,
             videoTime: 0,
-            duration: 0
+            duration: 0, 
+            isVideoLoaded: false
         };
         this.controllersRef = React.createRef();
         this.videoTimer = new VideoTimer(this.__timeHandler.bind(this));
@@ -26,7 +27,12 @@ class Hypervideo extends React.Component {
     __onReady = (event) => {
         this.player = event.target;
         const duration = this.player.getDuration();
-        this.setState((prevState) => {return {...prevState, duration: duration};});
+        this.setState((prevState) => {return {
+            ...prevState,
+            duration: duration,
+            isVideoLoaded: true
+        };});
+        console.log("Enabled!")
     }
 
     __timeHandler() {
@@ -122,6 +128,7 @@ class Hypervideo extends React.Component {
                     ref={this.controllersRef}
                     handleProgressChange={p => this.__handleProgressChange(p)}
                     handleProgressFixed={this.__handleProgressFixed}
+                    isInteractionEnabled={this.state.isVideoLoaded}
                 />
             </div>
         );    

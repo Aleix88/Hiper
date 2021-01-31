@@ -34,7 +34,8 @@ class VideoControllBar extends Component {
                         width: "10px",
                         height: "10px"
                     }}
-                    />
+                    isInteractionEnabled={this.props.isInteractionEnabled}
+                />
                     <ProgressBar 
                         style={{
                             maxWidth: "80%",
@@ -46,6 +47,7 @@ class VideoControllBar extends Component {
                         currentLength={this.state.currentTime}
                         handleChange={this.props.handleProgressChange}
                         onProgressFixed={this.props.handleProgressFixed}
+                        isInteractionEnabled={this.props.isInteractionEnabled}
                     />
                     <TimeCounter
                         currentTime={Math.round(this.state.currentTime)}

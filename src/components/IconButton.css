@@ -5,6 +5,10 @@
     cursor: pointer;
 }
 
+.button-icon-disabled {
+    pointer-events: none;
+}
+
 .button-icon {
     width: 100%;
     height: 100%;

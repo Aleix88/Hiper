@@ -69,7 +69,7 @@ class ProgressBar extends React.Component {
 
     render() {
         return (
-            <div className="progress-bar-container" 
+            <div className={this.props.isInteractionEnabled ? "progress-bar-container" : "progress-bar-container progress-bar-disabled"}
                 onMouseDown={this.onMouseDown}
                 onClick={this.onClick}
                 ref={this.containerRef}
