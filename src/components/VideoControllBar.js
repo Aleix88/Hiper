@@ -2,6 +2,7 @@ import React from 'react';
 import './VideoControllBar.css';
 import IconButton from './IconButton';
 import playIcon from '../assets/play.png';
+import pauseIcon from '../assets/pause.png';
 import ProgressBar from './ProgressBar';
 import TimeCounter from './TimeCounter';
 
@@ -14,7 +15,7 @@ const VideoControllBar = (props) => {
     return (
         <div className="video-controll-bar">
             <IconButton 
-                icon={playIcon}
+                icon={props.isPlaying ? pauseIcon : playIcon}
                 handleClick={handlePlay}
                 imgStyle={{
                     width: "10px",
