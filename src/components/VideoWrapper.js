@@ -46,8 +46,6 @@ class VideoWrapper extends React.Component {
 
     render() {
 
-        console.log(this.props.src)
-
         return (
             <video 
                 src={this.props.src} 
