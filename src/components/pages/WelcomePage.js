@@ -9,7 +9,7 @@ import { Redirect } from 'react-router-dom';
 const validVideoExtensions = ['mp4'];
 const validImageExtensions = ['jpg', 'png'];
 
-const WelcomePage = () => {
+const WelcomePage = (props) => {
 
     const [state, setState] = useState({
         needsToRedirect: false,
@@ -52,11 +52,12 @@ const WelcomePage = () => {
         })
         .then((destPath) => {
             if (file == null) {
-                return Promise.resolve();
+                return Promise.reject();
             }
             return FileManager.saveFile(file.path, destPath + "/" + file.name);
         })
-        .then(() => {
+        .then((path) => {
+            props.handleSrc(URL.createObjectURL(file), false);
             setRedirect(true);
         })
         .catch(()=>{
@@ -68,7 +69,7 @@ const WelcomePage = () => {
         const file = files[0];
         const extension = FileManager.getFileExtension(file.name);
         if (validVideoExtensions.includes(extension) || validImageExtensions.includes(extension)) {
-            createProject(file, false);
+            createProject(file);
         } else {
             setFileError("File error: make sure that the video format is MP4.")
         }
@@ -76,6 +77,7 @@ const WelcomePage = () => {
 
     const handleYoutubeURL = () => {
         if (FileManager.isYoutubeURLValid(state.youtubeURL)) {
+            props.handleSrc(state.youtubeURL, true);
             setRedirect(true);
         } else {
             setYoutubeError("Please enter a youtube ID");

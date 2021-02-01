@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React from 'react';
 import './ProgressBar.css';
 
 class ProgressBar extends React.Component {
@@ -22,13 +22,16 @@ class ProgressBar extends React.Component {
     };
 
     onMouseUp(event) {
+        if (this.state.dragStart) {
+            const progress = this.calculateBarPosition(event.clientX);
+            this.props.onProgressFixed(progress);
+        }
         this.setState((prevState) => {return {...prevState, dragStart: false}});
     };
 
     onClick(event) {
         const progress = this.calculateBarPosition(event.clientX);
         this.props.onProgressFixed(progress);
-
     }
 
     onMouseMove(event) {
@@ -64,7 +67,7 @@ class ProgressBar extends React.Component {
 
     componentWillUnmount() {
         document.removeEventListener('mousemove', this.onMouseMove);
-        document.addEventListener('mouseup', this.onMouseUp);
+        document.removeEventListener('mouseup', this.onMouseUp);
     }
 
     render() {

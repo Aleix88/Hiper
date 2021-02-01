@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './Hypervideo.css';
 import VideoControllBar from './VideoControllBar';
 import YouTube from 'react-youtube';
@@ -32,7 +32,6 @@ class Hypervideo extends React.Component {
             duration: duration,
             isVideoLoaded: true
         };});
-        console.log("Enabled!")
     }
 
     __timeHandler() {

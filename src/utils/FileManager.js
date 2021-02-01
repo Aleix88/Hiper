@@ -31,7 +31,7 @@ const saveFile = (from, to) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve();
+                    resolve(to);
                 }
             });
     });
