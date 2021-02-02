@@ -1,0 +1,6 @@
+.link-button {
+    border: none;
+    color: var(--link-blue);
+    cursor: pointer;
+    outline: none;
+}

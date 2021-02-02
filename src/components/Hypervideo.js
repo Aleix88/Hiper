@@ -4,6 +4,7 @@ import VideoControllBar from './VideoControllBar';
 import YouTube from 'react-youtube';
 import VideoWrapper from './VideoWrapper';
 import VideoTimer from '../utils/VideoTimer';
+import TagEditor from './TagEditor';
 
 class Hypervideo extends React.Component {
 
@@ -115,9 +116,9 @@ class Hypervideo extends React.Component {
             <div className="hypervideo">
                 <div className="hypervideo-content">
                     {videoElement}
-                    <div className="tag-container">
-                        
-                    </div>
+                    <TagEditor>
+                        {this.props.children}
+                    </TagEditor>
                 </div>
                 <VideoControllBar 
                     onPlay={this.__onPlay}

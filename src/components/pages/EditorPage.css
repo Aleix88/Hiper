@@ -10,11 +10,17 @@
 }
 
 .config-inspector {
-    width: 200px;
+    min-width: 200px;
     border-left: 2px solid;
 }
 
-.tag-inspector {
-    width: 200px;
+.left-window {
+    min-width: 200px;
     border-right: 2px solid;
+}
+
+.add-tag-button-container {
+    padding-left: .4em;
+    width: 100%;
+    text-align: center;
 }

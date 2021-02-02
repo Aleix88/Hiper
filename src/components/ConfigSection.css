@@ -1,0 +1,17 @@
+.config-section {
+    border-top: 2px solid;
+    background-color: var(--nav-gray);
+    border-color: var(--border-gray);
+    padding: .4em;
+    display: flex;
+    flex-direction: column;
+}
+
+.config-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.config-section-title {
+    margin-bottom: 1em;
+}

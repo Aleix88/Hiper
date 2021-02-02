@@ -1,0 +1,19 @@
+.tag-label-container {
+    display: flex;
+    padding: .6em 0;
+}
+
+.delete-button {
+    margin-left: auto;
+}
+
+.tag-label-decoration {
+    width: 5px;
+    height: 5px;
+    background-color: white;
+    border: 1px solid;
+    border-color: #7E7E7E;
+    border-radius: 50%;
+    margin: auto 0;
+    margin-right: .5em;
+}

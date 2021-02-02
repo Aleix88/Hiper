@@ -1,14 +1,25 @@
 :root {
   --clear: rgba(0,0,0,0);
   --bg-gray: #E6E6E6;
-  --nav-gray: #F2F2F2;
+  --nav-gray: #f5f5f5;
   --border-gray: #CDCDCD;
   --link-blue: #277EF6;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
+}
+
+h3 {
+  font-weight: bold;
+  color: #7E7E7E;
+  font-size: 14px;
+  margin: 0;
 }
 
 .app {
@@ -20,7 +31,7 @@ body {
 
 nav {
   height: 100%;
-  width: 40px;
+  min-width: 40px;
   border-right: 2px solid;
 }
 
