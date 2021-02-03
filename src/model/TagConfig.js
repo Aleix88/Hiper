@@ -1,12 +1,12 @@
 class TagConfig {
 
-    constructor(id, x, y, startTime) {
+    constructor(id, name, x, y, startTime) {
         this.id = id;
+        this.name = name;
         this.x = x;
         this.y = y;
         this.startTime = startTime;
         this.duration = 5; //In seconds
-        this.name = "";
     }
 
     isVisibleAt(currentTime) {

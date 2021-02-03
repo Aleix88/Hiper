@@ -16,11 +16,57 @@ class EditorPage extends Component {
             tags: []
         };
         this.__addNewTag = this.__addNewTag.bind(this);
+        this.__selectTag = this.__selectTag.bind(this);
+        this.__loadTagsList = this.__loadTagsList.bind(this);
+        this.__deleteTag = this.__deleteTag.bind(this);
+        this.TAG_REGEX = new RegExp(/^tag-[0-9]+/);
+        this.nCreateTags = 0;
     }
 
     __addNewTag() {
-        const newTag = new TagConfig("1", 50,50,1);
+        const sortedTags = this.state.tags.filter(t => t.name.match(this.TAG_REGEX)).sort((t1, t2) => {
+            return t1.name < t2.name ? 1 : (t1.name > t2.name ? -1 : 0);
+        });
+
+        const lastTag = sortedTags[0];
+        const tagNameIndex = this.state.tags.length > 0 ? parseInt(lastTag.name.substr(lastTag.name.length - 1)) + 1 : 0;
+        const newTag = new TagConfig(this.nCreateTags++, "tag-"+tagNameIndex, 50,50,1);
         this.setState(prevState => {return {...prevState, tags: [...prevState.tags, newTag]}});
+    }
+
+    __selectTag(id) {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                tags: prevState.tags.map(t => {
+                    t.isSelected = t.id === id;
+                    return t;
+                })
+            }
+        });
+    }
+
+    __deleteTag(id) {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                tags: prevState.tags.filter(t => t.id !== id)
+            };
+        });
+    }
+
+    __loadTagsList() {
+        const thisRef = this;
+        return this.state.tags.map(t => {
+            return <TagLabel 
+                key={t.id} 
+                id={t.id}
+                name={t.name}
+                handleSelection={thisRef.__selectTag}
+                handleDelete={thisRef.__deleteTag}
+                otherSelected={!t.isSelected}
+            />}
+        );
     }
 
     render() {
@@ -28,21 +74,14 @@ class EditorPage extends Component {
             <div className="editor-page">
                 <div className="left-window app-section">
                     <ConfigSection title="Tags" maxHeight="95%" height="95%">
-                        {
-                            this.state.tags.map(t => 
-                                <TagLabel 
-                                    key={t.id} 
-                                    name={"Tag"+t.id}
-                                />
-                            )
-                        }
+                        {this.__loadTagsList()}
                     </ConfigSection>
                     <div className="add-tag-button-container">
                     <LinkButton title="Create new tag" onClick={this.__addNewTag}/>
                     </div>
                 </div>
                 <div className="editor-main">
-                    <Link to="/">Home</Link>
+                    {/* <Link to="/">Home</Link> */}
                     <Hypervideo src={this.props.src} isFromYoutube={this.props.isFromYoutube}>
                         {
                             this.state.tags.map(t => 
