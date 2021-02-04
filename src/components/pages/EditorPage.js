@@ -9,6 +9,7 @@ import TagConfig from '../../model/TagConfig';
 import Tag from '../Tag';
 import SettingTextfield from '../SettingTextfield';
 import validateTag from '../../model/TagValidator';
+import generateEmbed from '../../utils/EmbedGenerator';
 
 class EditorPage extends Component {
 
@@ -25,6 +26,7 @@ class EditorPage extends Component {
         this.__deleteTag = this.__deleteTag.bind(this);
         this.__editFinish = this.__editFinish.bind(this);
         this.__handleChange = this.__handleChange.bind(this);
+        this.generate = this.generate.bind(this);
         this.TAG_REGEX = new RegExp(/^tag-[0-9]+/);
         this.nCreateTags = 0;
     }
@@ -119,6 +121,16 @@ class EditorPage extends Component {
         );
     }
 
+    generate() {
+        const projectInfo = this.props.projectInfo;
+        generateEmbed(
+            this.state.tags, 
+            projectInfo.projectPath,
+            projectInfo.isFromYoutube ? projectInfo.media : projectInfo.media.name,
+            projectInfo.isFromYoutube
+        );
+    }
+
     render() {
         return (
             <div className="editor-page">
@@ -131,8 +143,9 @@ class EditorPage extends Component {
                     </div>
                 </div>
                 <div className="editor-main">
-                    {/* <Link to="/">Home</Link> */}
-                    <Hypervideo src={this.props.src} isFromYoutube={this.props.isFromYoutube}>
+                    <Link to="/">Home</Link>
+                    <button onClick={this.generate}>Generate</button>
+                    <Hypervideo media={this.props.projectInfo.media} isFromYoutube={this.props.projectInfo.isFromYoutube}>
                         {
                             this.state.tags.map(t => 
                                 <Tag 
@@ -140,6 +153,8 @@ class EditorPage extends Component {
                                     x={t.x} 
                                     y={t.y}
                                     color={t.color}
+                                    timestamp={t.startTime}
+                                    duration={t.duration}
                                 />
                             )
                         }

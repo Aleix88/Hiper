@@ -25,3 +25,7 @@
 .tag-aspect-ratio {
     margin-top: 100%;
 }
+
+.tag-hide {
+    display: none;
+}

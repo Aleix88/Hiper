@@ -3,4 +3,5 @@
     color: var(--link-blue);
     cursor: pointer;
     outline: none;
+    background: none;
 }

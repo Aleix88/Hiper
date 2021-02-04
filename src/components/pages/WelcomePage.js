@@ -46,8 +46,11 @@ const WelcomePage = (props) => {
     }
 
     const createProject = (file) => {
+        let projectPath = "";
+        let projectName = "";
         FileManager.showSaveDialog("Create your project folder...", "Project name:", "Create", "documents")
         .then((destPath) => {
+            projectPath = destPath;
             return FileManager.createFolder(destPath);
         })
         .then((destPath) => {
@@ -57,7 +60,14 @@ const WelcomePage = (props) => {
             return FileManager.saveFile(file.path, destPath + "/" + file.name);
         })
         .then((path) => {
-            props.handleSrc(URL.createObjectURL(file), false);
+            props.handleSrc({
+                media: {
+                    url: URL.createObjectURL(file),
+                    name: file.name
+                },
+                isFromYoutube: false,
+                projectPath: projectPath
+            });
             setRedirect(true);
         })
         .catch(()=>{
@@ -77,8 +87,20 @@ const WelcomePage = (props) => {
 
     const handleYoutubeURL = () => {
         if (FileManager.isYoutubeURLValid(state.youtubeURL)) {
-            props.handleSrc(state.youtubeURL, true);
-            setRedirect(true);
+            FileManager.showSaveDialog("Create your project folder...", "Project name:", "Create", "documents")
+            .then((destPath) => {
+                return FileManager.createFolder(destPath);
+            })
+            .then((destPath) => {
+                props.handleSrc({
+                    media: state.youtubeURL,
+                    isFromYoutube: true,
+                    projectPath: destPath
+                });
+                setRedirect(true);
+            }).catch(() => {
+                setYoutubeError("Error creating the project. Try with another folder name.");
+            });
         } else {
             setYoutubeError("Please enter a youtube ID");
         }

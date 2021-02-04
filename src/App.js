@@ -8,14 +8,12 @@ import EditorPage from './components/pages/EditorPage';
 function App() {
 
   const [state, setState] = useState({
-      fileSrc: "",
-      isFromYoutube: false
+      projectInfo: null
   });
 
-  const handleSrc = (src, isFromYoutube) => {
-      setState({
-        fileSrc: src,
-        isFromYoutube: isFromYoutube
+  const handleSrc = (projectInfo) => {
+      setState((prevState) => {
+        return {...prevState, projectInfo: projectInfo};
       });
   };
 
@@ -29,7 +27,7 @@ function App() {
               <WelcomePage handleSrc={handleSrc}/>
             </Route>
             <Route path="/editor">
-              <EditorPage src={state.fileSrc} isFromYoutube={state.isFromYoutube}/>
+              <EditorPage projectInfo={state.projectInfo}/>
             </Route>
           </Switch>
         </div>

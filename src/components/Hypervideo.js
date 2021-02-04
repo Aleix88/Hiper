@@ -98,7 +98,7 @@ class Hypervideo extends React.Component {
             this.props.isFromYoutube ?
             <YouTube 
                 className="video"
-                videoId={this.props.src}
+                videoId={this.props.media}
                 opts={youtubeOpts} 
                 onReady={e => this.__onReady(e)}
                 onStateChange={e => this.__onStateChange(e)}
@@ -106,7 +106,7 @@ class Hypervideo extends React.Component {
             :
             <VideoWrapper 
                 className="video" 
-                src={this.props.src}
+                src={this.props.media.url}
                 onReady={e => this.__onReady(e)}
                 onStateChange={e => this.__onStateChange(e)}
             />        
@@ -116,7 +116,7 @@ class Hypervideo extends React.Component {
             <div className="hypervideo">
                 <div className="hypervideo-content">
                     {videoElement}
-                    <TagEditor>
+                    <TagEditor currentTime={this.state.videoTime}>
                         {this.props.children}
                     </TagEditor>
                 </div>

@@ -25,6 +25,18 @@ const createFolder = (folder) => {
     });
 };
 
+const createFile = (filePath, content) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(filePath, content, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(filePath);
+            }
+        });
+    })
+};
+
 const saveFile = (from, to) => {
     return new Promise((resolve, reject) => {
             fs.copyFile(from, to, (err) => {
@@ -57,7 +69,8 @@ const fileManager = {
     showSaveDialog: showSaveDialog,
     getFileExtension: getFileExtension,
     saveFile: saveFile,
-    createFolder: createFolder
+    createFolder: createFolder,
+    createFile: createFile
 };
 
 export default fileManager;
