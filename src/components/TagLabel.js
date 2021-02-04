@@ -6,13 +6,11 @@ import deleteIcon from '../assets/delete.png';
 const TagLabel = (props) => {
 
     const [state, setState] = useState({
-        isSelected: false,
         isHover: false
     });
 
     const selectTag = () => {
         props.handleSelection(props.id);
-        setState((prevState) => {return {...prevState, isSelected: true};});
     }
 
     const onMouseHover = () => {
@@ -29,7 +27,7 @@ const TagLabel = (props) => {
 
     return (
         <div 
-            className={"tag-label-container " + ((state.isSelected && !props.otherSelected) || state.isHover ? "tag-selected" : "")}
+            className={"tag-label-container " + ((!props.otherSelected) || state.isHover ? "tag-selected" : "")}
             onClick={selectTag}
             onMouseEnter={onMouseHover}
             onMouseLeave={onMouseLeave}

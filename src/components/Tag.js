@@ -11,7 +11,7 @@ const Tag = (props) => {
                 left: props.x + "%"
             }}
         >
-            <button className="tag-button"></button>
+            <button className="tag-button" style={{background: props.color}}></button>
             <div className="tag-aspect-ratio"></div>
         </div>
     );

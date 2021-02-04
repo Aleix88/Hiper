@@ -7,6 +7,7 @@ class TagConfig {
         this.y = y;
         this.startTime = startTime;
         this.duration = 5; //In seconds
+        this.color = "#fff";
     }
 
     isVisibleAt(currentTime) {
@@ -19,6 +20,10 @@ class TagConfig {
 
     setName(name) {
         this.name = name;
+    }
+
+    setColor(color) {
+        this.color = color;
     }
 
 }

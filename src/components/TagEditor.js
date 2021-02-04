@@ -13,7 +13,7 @@ class TagEditor extends Component {
 
 
     onClick() {
-        this.createTag();
+
     }
 
     render() {
