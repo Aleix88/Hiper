@@ -155,8 +155,8 @@ class EditorPage extends Component {
                                     {this.__settingTextfield("Start", "Start", this.state.swpTag.startTime, "startTime")}
                                     {this.__settingTextfield("Duration", "Duration", this.state.swpTag.duration, "duration")}
                                     {this.__settingTextfield("Color", "Color", this.state.swpTag.color, "color")}
-                                    {this.__settingTextfield("X", "X", this.state.swpTag.x, "x")}
-                                    {this.__settingTextfield("Y", "Y", this.state.swpTag.y, "y")}
+                                    {this.__settingTextfield("X(%)", "X", this.state.swpTag.x, "x")}
+                                    {this.__settingTextfield("Y(%)", "Y", this.state.swpTag.y, "y")}
                                 </ConfigSection>
                                 <ConfigSection>
                                     <LinkButton title="Choose plugin" className="choose-plugin-button"></LinkButton>
