@@ -5,6 +5,13 @@ const HYPERVIDEO_SRC = "HYPERVIDEO_SRC";
 const HYPERVIDEO_TYPE = "HYPERVIDEO_TYPE";
 const HYPERVIDEO_CONFIG = "HYPERVIDEO_CONFIG";
 
+const CSS_TEMPLATE = `
+.hypervideo {
+	margin: 1em auto;
+    display: block;
+}
+`;
+
 const HTML_TEMPLATE = `
 <!DOCTYPE html>
 <html>
@@ -56,6 +63,8 @@ const generateEmbed = (tagsConfig, projectPath, media, isFromYoutube) => {
     
     const htmlCode = HTML_TEMPLATE.replace(HYPERVIDEO_ID, hypervideo_id);
     FileManager.createFile(projectPath + '/index.html', htmlCode);
+
+    FileManager.createFile(projectPath + '/main.css', CSS_TEMPLATE);
 
     const size = {width: 564, height: 846};
     const videoTitle = "My first hypervideo";
