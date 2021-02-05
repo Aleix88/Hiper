@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './VideoControllBar.css';
-import IconButton from './IconButton';
-import playIcon from '../assets/play.png';
-import pauseIcon from '../assets/pause.png';
+import IconButton from '../../../components/icon-button/IconButton';
+import playIcon from '../../../assets/play.png';
+import pauseIcon from '../../../assets/pause.png';
 import ProgressBar from './ProgressBar';
 import TimeCounter from './TimeCounter';
 

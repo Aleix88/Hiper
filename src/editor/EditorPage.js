@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Hypervideo from '../Hypervideo';
+import Hypervideo from './hypervideo/Hypervideo';
 import './EditorPage.css';
-import ConfigSection from '../ConfigSection';
-import TagLabel from '../TagLabel';
-import LinkButton from '../LinkButton';
-import TagConfig from '../../model/TagConfig';
-import Tag from '../Tag';
-import SettingTextfield from '../SettingTextfield';
-import validateTag from '../../model/TagValidator';
-import generateEmbed from '../../utils/EmbedGenerator';
+import ConfigSection from './config-section/ConfigSection';
+import TagLabel from './tag-label/TagLabel';
+import LinkButton from '../components/link-button/LinkButton';
+import TagConfig from '../model/TagConfig';
+import Tag from './tag/Tag';
+import SettingTextfield from '../components/setting-tf/SettingTextfield';
+import validateTag from '../model/TagValidator';
+import generateEmbed from '../utils/EmbedGenerator';
 
 class EditorPage extends Component {
 
@@ -22,13 +22,13 @@ class EditorPage extends Component {
         };
         this.__addNewTag = this.__addNewTag.bind(this);
         this.__selectTag = this.__selectTag.bind(this);
-        this.__loadTagsList = this.__loadTagsList.bind(this);
+        this.__loadTagLabels = this.__loadTagLabels.bind(this);
         this.__deleteTag = this.__deleteTag.bind(this);
         this.__editFinish = this.__editFinish.bind(this);
-        this.__handleChange = this.__handleChange.bind(this);
-        this.generate = this.generate.bind(this);
+        this.__handleTagEdit = this.__handleTagEdit.bind(this);
         this.TAG_REGEX = new RegExp(/^tag-[0-9]+/);
         this.nCreateTags = 0;
+        this.hypervideoRef = React.createRef();
     }
 
     __addNewTag() {
@@ -41,7 +41,8 @@ class EditorPage extends Component {
         });
         const lastTag = sortedTags[0];
         const tagNameIndex = this.state.tags.length > 0 ? parseInt(lastTag.name.replace('tag-', '')) + 1 : 0;
-        const newTag = new TagConfig(this.nCreateTags++, "tag-"+tagNameIndex, 50,50,1);
+        const currentVideoTime = parseInt(this.hypervideoRef.current.getCurrentTime());
+        const newTag = new TagConfig(this.nCreateTags++, "tag-"+tagNameIndex, 50,50, currentVideoTime);
         this.setState(prevState => {return {...prevState, tags: [...prevState.tags, newTag]}});
         this.__selectTag(newTag.id);
     }
@@ -63,15 +64,23 @@ class EditorPage extends Component {
     }
 
     __deleteTag(id) {
+        const thisRef = this;
         this.setState(prevState => {
+            const filteredTags = prevState.tags.filter(t => t.id !== id);
+            let selectedTag = null;
+            if (filteredTags.length > 0) {
+                thisRef.__selectTag(filteredTags[0].id);
+                selectedTag = filteredTags[0];   
+            }
             return {
                 ...prevState,
-                tags: prevState.tags.filter(t => t.id !== id)
+                selectedTag: selectedTag,
+                tags: filteredTags
             };
         });
     }
 
-    __loadTagsList() {
+    __loadTagLabels() {
         const thisRef = this;
         return this.state.tags.map(t => {
             return <TagLabel 
@@ -85,7 +94,7 @@ class EditorPage extends Component {
         );
     }
 
-    __handleChange(value, attribute) {
+    __handleTagEdit(value, attribute) {
         this.setState((prevState) => {
             prevState.swpTag[attribute] = value;        
             return prevState;
@@ -115,19 +124,9 @@ class EditorPage extends Component {
                 title={title} 
                 placeholder={placeholder} 
                 value={value} 
-                handleChange={(e) => {thisRef.__handleChange(e.target.value, attribute)}}
+                handleChange={(e) => {thisRef.__handleTagEdit(e.target.value, attribute)}}
                 onEditFinish={() => {thisRef.__editFinish(attribute)}}
             />
-        );
-    }
-
-    generate() {
-        const projectInfo = this.props.projectInfo;
-        generateEmbed(
-            this.state.tags, 
-            projectInfo.projectPath,
-            projectInfo.isFromYoutube ? projectInfo.media : projectInfo.media.name,
-            projectInfo.isFromYoutube
         );
     }
 
@@ -136,7 +135,7 @@ class EditorPage extends Component {
             <div className="editor-page">
                 <div className="left-window app-section">
                     <ConfigSection title="Tags" maxHeight="95%" height="95%">
-                        {this.__loadTagsList()}
+                        {this.__loadTagLabels()}
                     </ConfigSection>
                     <div className="add-tag-button-container">
                     <LinkButton title="Create new tag" onClick={this.__addNewTag}/>
@@ -144,8 +143,7 @@ class EditorPage extends Component {
                 </div>
                 <div className="editor-main">
                     <Link to="/">Home</Link>
-                    <button onClick={this.generate}>Generate</button>
-                    <Hypervideo media={this.props.projectInfo.media} isFromYoutube={this.props.projectInfo.isFromYoutube}>
+                    <Hypervideo media={this.props.projectInfo.media} isFromYoutube={this.props.projectInfo.isFromYoutube} ref={this.hypervideoRef}>
                         {
                             this.state.tags.map(t => 
                                 <Tag 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './TagEditor.css';
+import './TagContainer.css';
 
 const TagEditor = (props) => {
     return (

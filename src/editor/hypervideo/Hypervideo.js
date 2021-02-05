@@ -1,10 +1,10 @@
 import React from 'react';
 import './Hypervideo.css';
-import VideoControllBar from './VideoControllBar';
+import VideoControllBar from './controll-bar/VideoControllBar';
 import YouTube from 'react-youtube';
-import VideoWrapper from './VideoWrapper';
-import VideoTimer from '../utils/VideoTimer';
-import TagEditor from './TagEditor';
+import VideoWrapper from './video-wrapper/VideoWrapper';
+import VideoTimer from '../../utils/VideoTimer';
+import TagContainer from './tag-container/TagContainer';
 
 class Hypervideo extends React.Component {
 
@@ -44,6 +44,10 @@ class Hypervideo extends React.Component {
     isPlaying = () => {
         return this.player.getPlayerState() === Hypervideo.PLAYING;
     };
+
+    getCurrentTime() {
+        return this.state.videoTime;
+    }
 
     __onPlay = () => {
         if (this.isPlaying()) {
@@ -116,9 +120,9 @@ class Hypervideo extends React.Component {
             <div className="hypervideo">
                 <div className="hypervideo-content">
                     {videoElement}
-                    <TagEditor currentTime={this.state.videoTime}>
+                    <TagContainer currentTime={this.state.videoTime}>
                         {this.props.children}
-                    </TagEditor>
+                    </TagContainer>
                 </div>
                 <VideoControllBar 
                     onPlay={this.__onPlay}

@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import './WelcomePage.css';
-import DragAndDrop from '../DragAndDrop';
-import RoundTextField from '../RoundTextField';
-import FileManager from '../../utils/FileManager';
-import MainButton from '../MainButton';
+import DragAndDrop from './drag-and-drop/DragAndDrop';
+import RoundTextField from '../components/round-tf/RoundTextField';
+import FileManager from '../utils/FileManager';
+import MainButton from '../components/main-button/MainButton';
 import { Redirect } from 'react-router-dom';
 
 const validVideoExtensions = ['mp4'];

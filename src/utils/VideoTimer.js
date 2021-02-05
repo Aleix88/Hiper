@@ -1,4 +1,3 @@
-import VideoControllBar from "../components/VideoControllBar";
 
 class VideoTimer {
 

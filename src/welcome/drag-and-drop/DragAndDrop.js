@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './DragAndDrop.css';
-import folderIcon from '../assets/folder.png';
+import folderIcon from '../../assets/folder.png';
 
 const DragAndDrop = (props) => {
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Hypervideo from './Hypervideo';
+import Hypervideo from '../Hypervideo';
 import './VideoWrapper.css';
 
 

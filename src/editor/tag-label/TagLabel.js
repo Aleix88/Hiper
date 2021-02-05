@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import IconButton from './IconButton';
+import IconButton from '../../components/icon-button/IconButton';
 import './TagLabel.css';
-import deleteIcon from '../assets/delete.png';
+import deleteIcon from '../../assets/delete.png';
 
 const TagLabel = (props) => {
 
@@ -9,7 +9,7 @@ const TagLabel = (props) => {
         isHover: false
     });
 
-    const selectTag = () => {
+    const selectTag = (e) => {
         props.handleSelection(props.id);
     }
 
@@ -21,7 +21,7 @@ const TagLabel = (props) => {
         setState((prevState) => {return {...prevState, isHover: false};});
     };
 
-    const __handleDelete = () => {
+    const __handleDelete = (e) => {
         props.handleDelete(props.id);
     };
 

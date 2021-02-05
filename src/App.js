@@ -1,9 +1,9 @@
 import './App.css';
 import React, {useState} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import SideNavBar from './components/SideNavBar';
-import WelcomePage from './components/pages/WelcomePage';
-import EditorPage from './components/pages/EditorPage';
+import SideNavBar from './navbar/SideNavBar';
+import WelcomePage from './welcome/WelcomePage';
+import EditorPage from './editor/EditorPage';
 
 function App() {
 
