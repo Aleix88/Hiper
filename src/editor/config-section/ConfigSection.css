@@ -1,6 +1,6 @@
 .config-section {
     background-color: var(--nav-gray);
-    border-color: var(--border-gray);
+    border-color: var(--border-gray) !important;
     padding: .4em 0;
     display: flex;
     flex-direction: column;

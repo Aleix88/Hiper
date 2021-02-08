@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './TagContainer.css';
 
-const TagEditor = (props) => {
+const TagContainer = (props) => {
     return (
         <div className="tag-container">
             {
@@ -16,4 +16,4 @@ const TagEditor = (props) => {
     );
 };
 
-export default TagEditor;
+export default TagContainer;

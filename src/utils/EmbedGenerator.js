@@ -59,13 +59,12 @@ const createTagObject = (tag) => {
     );
 };
 
-const generateEmbed = (tagsConfig, projectPath, media, isFromYoutube) => {
+const generateEmbed = (videoSettings, tagsConfig, projectPath, media, isFromYoutube) => {
     const hypervideo_id = "hypervideo_id";
     const htmlCode = HTML_TEMPLATE.replace(HYPERVIDEO_ID, hypervideo_id);
-    const size = {width: 564, height: 846};
-    const videoTitle = "My first hypervideo";
+    const size = {width: videoSettings.width, height: videoSettings.height};
     
-    FileManager.readFile(FileManager.getResourcesPath() + '/data/' + API_FILE_NAME)
+    return FileManager.readFile(FileManager.getResourcesPath() + '/data/' + API_FILE_NAME)
     .then((apiCode) => {
         return FileManager.createFile(projectPath + '/' + API_FILE_NAME, apiCode);
     })
@@ -74,11 +73,10 @@ const generateEmbed = (tagsConfig, projectPath, media, isFromYoutube) => {
     })
     .then(() => {
         return FileManager.createFile(projectPath + '/main.css', CSS_TEMPLATE);
-
     })
     .then(() => {
         let config = {
-            videoTitle: videoTitle,
+            videoTitle: videoSettings.videoTitle,
             size: size,
             tags: []
         };
@@ -94,19 +92,7 @@ const generateEmbed = (tagsConfig, projectPath, media, isFromYoutube) => {
         .replace(HYPERVIDEO_TYPE, isFromYoutube ? "Hypervideo.YOUTUBE_TYPE" : "Hypervideo.VIDEO_TYPE")
         .replace(HYPERVIDEO_CONFIG, JSON.stringify(config));
         return FileManager.createFile(projectPath + '/main.js', jsMain);
-    })
-    .then(()=> {
-        console.log("Done!");
-    })
-    .catch((err) => {
-        console.log("Generate code error!", err)
     });
-
-
-
-
-    
-
 };
 
 
