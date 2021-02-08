@@ -1,5 +1,4 @@
 .config-section {
-    border-top: 2px solid;
     background-color: var(--nav-gray);
     border-color: var(--border-gray);
     padding: .4em 0;

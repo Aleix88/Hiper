@@ -1,5 +1,7 @@
 import FileManager from './FileManager';
 
+const API_FILE_NAME = "hypervideo.min.js";
+
 const HYPERVIDEO_ID = "HYPERVIDEO_ID";
 const HYPERVIDEO_SRC = "HYPERVIDEO_SRC";
 const HYPERVIDEO_TYPE = "HYPERVIDEO_TYPE";
@@ -58,34 +60,52 @@ const createTagObject = (tag) => {
 };
 
 const generateEmbed = (tagsConfig, projectPath, media, isFromYoutube) => {
-    console.log("Generating embed...")
     const hypervideo_id = "hypervideo_id";
-    
     const htmlCode = HTML_TEMPLATE.replace(HYPERVIDEO_ID, hypervideo_id);
-    FileManager.createFile(projectPath + '/index.html', htmlCode);
-
-    FileManager.createFile(projectPath + '/main.css', CSS_TEMPLATE);
-
     const size = {width: 564, height: 846};
     const videoTitle = "My first hypervideo";
+    
+    FileManager.readFile(FileManager.getResourcesPath() + '/data/' + API_FILE_NAME)
+    .then((apiCode) => {
+        return FileManager.createFile(projectPath + '/' + API_FILE_NAME, apiCode);
+    })
+    .then(() => {
+        return FileManager.createFile(projectPath + '/index.html', htmlCode);
+    })
+    .then(() => {
+        return FileManager.createFile(projectPath + '/main.css', CSS_TEMPLATE);
 
-    let config = {
-        videoTitle: videoTitle,
-        size: size,
-        tags: []
-    };
-
-    tagsConfig.forEach(t => {
-        const tag = createTagObject(t);
-        config.tags.push(tag);
+    })
+    .then(() => {
+        let config = {
+            videoTitle: videoTitle,
+            size: size,
+            tags: []
+        };
+    
+        tagsConfig.forEach(t => {
+            const tag = createTagObject(t);
+            config.tags.push(tag);
+        });
+    
+        const jsMain = JS_TEMPLATE
+        .replace(HYPERVIDEO_ID, hypervideo_id)
+        .replace(HYPERVIDEO_SRC, isFromYoutube ? media : "./" + media.name)
+        .replace(HYPERVIDEO_TYPE, isFromYoutube ? "Hypervideo.YOUTUBE_TYPE" : "Hypervideo.VIDEO_TYPE")
+        .replace(HYPERVIDEO_CONFIG, JSON.stringify(config));
+        return FileManager.createFile(projectPath + '/main.js', jsMain);
+    })
+    .then(()=> {
+        console.log("Done!");
+    })
+    .catch((err) => {
+        console.log("Generate code error!", err)
     });
 
-    const jsMain = JS_TEMPLATE
-    .replace(HYPERVIDEO_ID, hypervideo_id)
-    .replace(HYPERVIDEO_SRC, isFromYoutube ? media : "./" + media.name)
-    .replace(HYPERVIDEO_TYPE, isFromYoutube ? "Hypervideo.YOUTUBE_TYPE" : "Hypervideo.VIDEO_TYPE")
-    .replace(HYPERVIDEO_CONFIG, JSON.stringify(config));
-    FileManager.createFile(projectPath + '/main.js', jsMain);
+
+
+
+    
 
 };
 

@@ -2,6 +2,7 @@ const electron = window.require('electron');
 const app = electron.remote.app;
 const dialog = electron.remote.dialog;
 const fs = electron.remote.require('fs');
+const path = electron.remote.require('path');
 
 const getFileExtension = (fileName) => {
     let parts = fileName.split('.');
@@ -11,6 +12,26 @@ const getFileExtension = (fileName) => {
 
 const isYoutubeURLValid = (url) => {
     return url != null && url.length > 0;
+};
+
+const resolvePath = (src) => {
+    return path.resolve(src);
+};
+
+const getResourcesPath = () => {
+    return electron.remote.process.resourcesPath;
+}
+
+const readFile = (src) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(src, (err, data) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data.toString());
+            }
+        });
+    });
 };
 
 const createFolder = (folder) => {
@@ -70,7 +91,10 @@ const fileManager = {
     getFileExtension: getFileExtension,
     saveFile: saveFile,
     createFolder: createFolder,
-    createFile: createFile
+    createFile: createFile,
+    resolvePath: resolvePath,
+    readFile: readFile,
+    getResourcesPath: getResourcesPath
 };
 
 export default fileManager;

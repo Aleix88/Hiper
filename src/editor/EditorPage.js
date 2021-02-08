@@ -31,6 +31,15 @@ class EditorPage extends Component {
         this.hypervideoRef = React.createRef();
     }
 
+    exportCode() {
+        const projectInfo = this.props.projectInfo;
+        generateEmbed(
+            this.state.tags,
+            projectInfo.projectPath,
+            projectInfo.isFromYoutube ? projectInfo.media : projectInfo.media.url,
+            projectInfo.isFromYoutube);
+    }
+
     __addNewTag() {
         const sortedTags = this.state.tags.filter(t => {
             return t.name.match(this.TAG_REGEX);
@@ -134,7 +143,7 @@ class EditorPage extends Component {
         return (
             <div className="editor-page">
                 <div className="left-window app-section">
-                    <ConfigSection title="Tags" maxHeight="95%" height="95%">
+                    <ConfigSection title="Tags" maxHeight="95%" height="95%" addBorderTop={false}>
                         {this.__loadTagLabels()}
                     </ConfigSection>
                     <div className="add-tag-button-container">
@@ -163,7 +172,7 @@ class EditorPage extends Component {
                         this.state.selectedTag != null ? 
                         (
                             <div>
-                                <ConfigSection title="Tag setting" maxHeight="95%" height="auto">
+                                <ConfigSection title="Tag setting" maxHeight="95%" height="auto" addBorderTop={false}>
                                     {this.__settingTextfield("Name", "Tag name", this.state.swpTag.name, "name")}
                                     {this.__settingTextfield("Start", "Start", this.state.swpTag.startTime, "startTime")}
                                     {this.__settingTextfield("Duration", "Duration", this.state.swpTag.duration, "duration")}

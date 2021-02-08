@@ -8,7 +8,8 @@ const ConfigSection = (props) => {
             className="config-section"
             style= {{
                 maxHeight: props.maxHeight,
-                height: props.height
+                height: props.height,
+                borderTop: props.addBorderTop ? "2px solid" : "none"
             }}
         >
             {props.title ? <h3 className="config-section-title">{props.title}</h3> : null}

@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import SideNavBar from './navbar/SideNavBar';
 import WelcomePage from './welcome/WelcomePage';
@@ -11,23 +11,29 @@ function App() {
       projectInfo: null
   });
 
+  const editorRef = useRef();
+
   const handleSrc = (projectInfo) => {
       setState((prevState) => {
         return {...prevState, projectInfo: projectInfo};
       });
   };
 
+  const handleExportecode = () => {
+    editorRef.current.exportCode();
+  };
+
   return (
     <div className="app">
       <Router>
-        <SideNavBar/>
+        <SideNavBar exportCode={handleExportecode}/>
         <div className="main">
           <Switch>
             <Route path="/" exact>
               <WelcomePage handleSrc={handleSrc}/>
             </Route>
             <Route path="/editor">
-              <EditorPage projectInfo={state.projectInfo}/>
+              <EditorPage ref={editorRef} projectInfo={state.projectInfo}/>
             </Route>
           </Switch>
         </div>

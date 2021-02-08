@@ -9,6 +9,7 @@ const MainButton = (props) => {
             <Link
                 className={props.disabled ? "main-button-link main-button-disabled" : "main-button-link"}
                 to={props.href}
+                style={props.style}
             >
                 {props.title}
             </Link>
@@ -18,6 +19,7 @@ const MainButton = (props) => {
             <button 
                 className={props.disabled ? "main-button main-button-disabled" : "main-button"}
                 onClick={props.handleClick}
+                style={props.style}
             >
                 {props.title}
             </button>

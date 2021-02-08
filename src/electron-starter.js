@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, Menu} = require('electron')
 const path = require('path')
 
 function createWindow () {
@@ -13,9 +13,8 @@ function createWindow () {
       enableRemoteModule: true
     }
   })
-
   // and load the index.html of the app.
-//   mainWindow.loadFile('http://localhost:3000')
+  //   mainWindow.loadFile('http://localhost:3000')
   mainWindow.loadURL('http://localhost:3000')
 
   // Open the DevTools.
@@ -33,6 +32,8 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+  
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
