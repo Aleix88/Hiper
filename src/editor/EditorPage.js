@@ -39,15 +39,16 @@ class EditorPage extends Component {
     exportCode() {
         const projectInfo = this.props.projectInfo;
         generateEmbed(
+            this.state.videoSettings,
             this.state.tags,
             projectInfo.projectPath,
-            projectInfo.isFromYoutube ? projectInfo.media : projectInfo.media.url,
+            projectInfo.media,
             projectInfo.isFromYoutube)
         .then (() => {
-
+            console.log("Done")
         })
-        .catch (() => {
-
+        .catch ((err) => {
+            console.log(err)
         });
     }
 
@@ -59,7 +60,6 @@ class EditorPage extends Component {
             const n2 = parseInt(t2.name.replace('tag-',''));
             return (n1 < n2) ? 1 : (n1 > n2 ? -1 : 0);
         });
-        console.log(sortedTags);
         const lastTag = sortedTags[0];
         const tagNameIndex = sortedTags.length > 0 ? parseInt(lastTag.name.replace('tag-', '')) + 1 : 0;
         const currentVideoTime = parseInt(this.hypervideoRef.current.getCurrentTime());

@@ -85,7 +85,7 @@ const generateEmbed = (videoSettings, tagsConfig, projectPath, media, isFromYout
             const tag = createTagObject(t);
             config.tags.push(tag);
         });
-    
+        console.log(media)
         const jsMain = JS_TEMPLATE
         .replace(HYPERVIDEO_ID, hypervideo_id)
         .replace(HYPERVIDEO_SRC, isFromYoutube ? media : "./" + media.name)
