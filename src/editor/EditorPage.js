@@ -10,6 +10,8 @@ import Tag from './tag/Tag';
 import generateEmbed from '../utils/EmbedGenerator';
 import TagEditor from './TagEditor';
 import VideoSettingsEditor from './VideoSettingsEditor';
+import {YOUTUBE_TYPE, VIDEO_TYPE, IMG_TYPE} from '../model/MediaTypes';
+import Hyperimage from './hypervideo/Hyperimage';
 
 class EditorPage extends Component {
 
@@ -43,7 +45,7 @@ class EditorPage extends Component {
             this.state.tags,
             projectInfo.projectPath,
             projectInfo.media,
-            projectInfo.isFromYoutube)
+            projectInfo.mediaType)
         .then (() => {
             console.log("Done")
         })
@@ -62,7 +64,7 @@ class EditorPage extends Component {
         });
         const lastTag = sortedTags[0];
         const tagNameIndex = sortedTags.length > 0 ? parseInt(lastTag.name.replace('tag-', '')) + 1 : 0;
-        const currentVideoTime = parseInt(this.hypervideoRef.current.getCurrentTime());
+        const currentVideoTime = parseInt(this.hypervideoRef.current == null ? null : this.hypervideoRef.current.getCurrentTime());
         const newTag = new TagConfig(this.nCreateTags++, "tag-"+tagNameIndex, 50,50, currentVideoTime);
         this.setState(prevState => {return {...prevState, tags: [...prevState.tags, newTag]}});
         this.__selectTag(newTag.id);
@@ -152,24 +154,45 @@ class EditorPage extends Component {
                 </div>
                 <div className="editor-main">
                     <Link to="/">Home</Link>
-                    <Hypervideo media={this.props.projectInfo.media} isFromYoutube={this.props.projectInfo.isFromYoutube} ref={this.hypervideoRef}>
-                        {
-                            this.state.tags.map(t => 
-                                <Tag 
-                                    key={t.id} 
-                                    x={t.x} 
-                                    y={t.y}
-                                    color={t.color}
-                                    timestamp={t.startTime}
-                                    duration={t.duration}
-                                />
-                            )
-                        }
-                    </Hypervideo>
+                    {
+                        this.props.projectInfo.mediaType === IMG_TYPE ? 
+                        <Hyperimage media={this.props.projectInfo.media}>
+                            {
+                                this.state.tags.map(t => 
+                                    <Tag 
+                                        key={t.id} 
+                                        x={t.x} 
+                                        y={t.y}
+                                        color={t.color}
+                                        timestamp={t.startTime}
+                                        duration={t.duration}
+                                    />
+                                )
+                            }
+                        </Hyperimage>
+
+                        :
+
+                        <Hypervideo media={this.props.projectInfo.media} isFromYoutube={this.props.projectInfo.mediaType === YOUTUBE_TYPE} ref={this.hypervideoRef}>
+                            {
+                                this.state.tags.map(t => 
+                                    <Tag 
+                                        key={t.id} 
+                                        x={t.x} 
+                                        y={t.y}
+                                        color={t.color}
+                                        timestamp={t.startTime}
+                                        duration={t.duration}
+                                    />
+                                )
+                            }
+                        </Hypervideo>
+                    }
+                    
                 </div>
                 <div className="config-inspector app-section">
                     <VideoSettingsEditor ref={this.videoEditorRef} editFinished={this.__handleEditedVideo} defaultSettings={this.copyObject(this.state.videoSettings)}/>
-                    <TagEditor ref={this.tagEditorRef} editFinished={this.__handleEditedTag}/>
+                    <TagEditor ref={this.tagEditorRef} editFinished={this.__handleEditedTag} hideTimeSettings={this.props.projectInfo.mediaType === IMG_TYPE}/>
                 </div>
             </div>
         );

@@ -1,4 +1,6 @@
 import FileManager from './FileManager';
+import {YOUTUBE_TYPE, VIDEO_TYPE, IMG_TYPE} from '../model/MediaTypes';
+import { Switch } from 'react-router-dom';
 
 const API_FILE_NAME = "hypervideo.min.js";
 
@@ -59,7 +61,20 @@ const createTagObject = (tag) => {
     );
 };
 
-const generateEmbed = (videoSettings, tagsConfig, projectPath, media, isFromYoutube) => {
+const getHypervideoType = (mediaType) => {
+    switch(mediaType) {
+        case YOUTUBE_TYPE:
+            return "Hypervideo.YOUTUBE_TYPE";
+        case VIDEO_TYPE: 
+            return "Hypervideo.VIDEO_TYPE";
+        case IMG_TYPE:
+            return "Hypervideo.IMAGE_TYPE";
+        default: 
+            return "Error Type";
+    }
+};
+
+const generateEmbed = (videoSettings, tagsConfig, projectPath, media, mediaType) => {
     const hypervideo_id = "hypervideo_id";
     const htmlCode = HTML_TEMPLATE.replace(HYPERVIDEO_ID, hypervideo_id);
     const size = {width: videoSettings.width, height: videoSettings.height};
@@ -85,11 +100,13 @@ const generateEmbed = (videoSettings, tagsConfig, projectPath, media, isFromYout
             const tag = createTagObject(t);
             config.tags.push(tag);
         });
-        console.log(media)
+
+        const hypervideoType = getHypervideoType(mediaType);
+
         const jsMain = JS_TEMPLATE
         .replace(HYPERVIDEO_ID, hypervideo_id)
-        .replace(HYPERVIDEO_SRC, isFromYoutube ? media : "./" + media.name)
-        .replace(HYPERVIDEO_TYPE, isFromYoutube ? "Hypervideo.YOUTUBE_TYPE" : "Hypervideo.VIDEO_TYPE")
+        .replace(HYPERVIDEO_SRC, mediaType === YOUTUBE_TYPE ? media : "./" + media.name)
+        .replace(HYPERVIDEO_TYPE, hypervideoType)
         .replace(HYPERVIDEO_CONFIG, JSON.stringify(config));
         return FileManager.createFile(projectPath + '/main.js', jsMain);
     });

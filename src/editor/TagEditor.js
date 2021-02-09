@@ -71,8 +71,8 @@ class TagEditor extends Component {
                 <div>
                     <ConfigSection title="Tag settings" maxHeight="95%" height="auto" addBorderTop={true}>
                         {this.__settingTextfield("Name", "Tag name", this.state.swpTag.name, "name")}
-                        {this.__settingTextfield("Start", "Start", this.state.swpTag.startTime, "startTime")}
-                        {this.__settingTextfield("Duration", "Duration", this.state.swpTag.duration, "duration")}
+                        {this.props.hideTimeSettings ? null : this.__settingTextfield("Start", "Start", this.state.swpTag.startTime, "startTime")}
+                        {this.props.hideTimeSettings ? null : this.__settingTextfield("Duration", "Duration", this.state.swpTag.duration, "duration")}
                         {this.__settingTextfield("Color", "Color", this.state.swpTag.color, "color")}
                         {this.__settingTextfield("X(%)", "X", this.state.swpTag.x, "x")}
                         {this.__settingTextfield("Y(%)", "Y", this.state.swpTag.y, "y")}

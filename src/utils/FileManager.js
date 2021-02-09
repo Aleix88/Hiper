@@ -85,6 +85,10 @@ const showSaveDialog = async (title, nameFieldLabel, buttonLabel, defaultPath) =
     }
 };
 
+const isFileImage = (file) => {
+    return file && file['type'].split('/')[0] === 'image';
+};
+
 const fileManager = {
     isYoutubeURLValid: isYoutubeURLValid,
     showSaveDialog: showSaveDialog,
@@ -94,7 +98,8 @@ const fileManager = {
     createFile: createFile,
     resolvePath: resolvePath,
     readFile: readFile,
-    getResourcesPath: getResourcesPath
+    getResourcesPath: getResourcesPath,
+    isFileImage: isFileImage
 };
 
 export default fileManager;

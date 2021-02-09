@@ -5,6 +5,7 @@ import RoundTextField from '../components/round-tf/RoundTextField';
 import FileManager from '../utils/FileManager';
 import MainButton from '../components/main-button/MainButton';
 import { Redirect } from 'react-router-dom';
+import {YOUTUBE_TYPE, VIDEO_TYPE, IMG_TYPE} from '../model/MediaTypes';
 
 const validVideoExtensions = ['mp4'];
 const validImageExtensions = ['jpg', 'png'];
@@ -47,7 +48,6 @@ const WelcomePage = (props) => {
 
     const createProject = (file) => {
         let projectPath = "";
-        let projectName = "";
         FileManager.showSaveDialog("Create your project folder...", "Project name:", "Create", "documents")
         .then((destPath) => {
             projectPath = destPath;
@@ -65,7 +65,7 @@ const WelcomePage = (props) => {
                     url: URL.createObjectURL(file),
                     name: file.name
                 },
-                isFromYoutube: false,
+                mediaType: FileManager.isFileImage(file) ? IMG_TYPE : VIDEO_TYPE,
                 projectPath: projectPath
             });
             setRedirect(true);
@@ -94,7 +94,7 @@ const WelcomePage = (props) => {
             .then((destPath) => {
                 props.handleSrc({
                     media: state.youtubeURL,
-                    isFromYoutube: true,
+                    mediaType: YOUTUBE_TYPE,
                     projectPath: destPath
                 });
                 setRedirect(true);
