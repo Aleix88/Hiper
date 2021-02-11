@@ -1,3 +1,5 @@
+import Plugin from './Plugin';
+
 class TagConfig {
 
     constructor(id, name, x, y, startTime) {
@@ -8,6 +10,7 @@ class TagConfig {
         this.startTime = startTime;
         this.duration = 5; //In seconds
         this.color = "#fff";
+        this.plugin = new Plugin("", "");
     }
 
     isVisibleAt(currentTime) {
@@ -24,6 +27,10 @@ class TagConfig {
 
     setColor(color) {
         this.color = color;
+    }
+
+    setPlugin(plugin) {
+        this.plugin = plugin;
     }
 
 }

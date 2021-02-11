@@ -15,6 +15,7 @@ class TagEditor extends Component {
         this.__editFinish = this.__editTagFinish.bind(this);
         this.__handleTagEdit = this.__handleTagEdit.bind(this);
         this.__settingTextfield = this.__settingTextfield.bind(this);
+        this.openPluginSettings = this.openPluginSettings.bind(this);
     }
 
     __handleTagEdit(value, attribute) {
@@ -65,6 +66,11 @@ class TagEditor extends Component {
         })
     }
 
+    openPluginSettings() {
+        console.log("Open")
+        this.props.handlePluginEditor();
+    }
+
     render() {
         if (this.state.swpTag != null) {
             return  ( 
@@ -78,9 +84,7 @@ class TagEditor extends Component {
                         {this.__settingTextfield("Y(%)", "Y", this.state.swpTag.y, "y")}
                     </ConfigSection>
                     <ConfigSection>
-                        <LinkButton title="Choose plugin" className="choose-plugin-button"></LinkButton>
-                    </ConfigSection>
-                    <ConfigSection title="Plugin setting">
+                        <LinkButton title="Open plugin editor" className="choose-plugin-button" onClick={this.openPluginSettings}></LinkButton>
                     </ConfigSection>
                 </div> 
             )

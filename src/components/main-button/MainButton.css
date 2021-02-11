@@ -1,5 +1,4 @@
-.main-button,
-.main-button-link {
+.main-button {
     text-decoration: none;
     border: none;
     outline: none;
@@ -10,15 +9,13 @@
     color: white;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    transform:  perspective(1000px) translateZ(0px);
     font-size: 15px;
 }
 
-.main-button:focus,
-.main-button-link:focus,
-.main-button:hover,
-.main-button-link:hover {
-    transform:  perspective(1000px) translateZ(20px);
+.secondary-button {
+    color: var(--link-blue);
+    border: solid 1px var(--link-blue);
+    background-color: white;
 }
 
 .main-button-disabled {

@@ -2,12 +2,36 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import './MainButton.css';
 
+const MAIN = "MAIN";
+const SECONDARY = "SECONDARY";
+
+export {
+    MAIN,
+    SECONDARY
+}
+
 const MainButton = (props) => {
 
+
+    const getType = () => {
+        switch (props.type) {
+            case SECONDARY:
+                return "secondary-button";
+            case MAIN:
+            default:
+                return "";
+        }
+    };
+
+    let className = "main-button";
+    className += props.disabled ? "main-button-disabled" : "";
+    className += " " + getType();
+
     if (props.href != null) {
+
         return (
             <Link
-                className={props.disabled ? "main-button-link main-button-disabled" : "main-button-link"}
+                className={className}
                 to={props.href}
                 style={props.style}
             >
@@ -15,9 +39,12 @@ const MainButton = (props) => {
             </Link>
         );
     } else {
+        let className = "main-button";
+        className += props.disabled ? "main-button-disabled" : "";
+        className += " " + getType();
         return (
             <button 
-                className={props.disabled ? "main-button main-button-disabled" : "main-button"}
+                className={className}
                 onClick={props.handleClick}
                 style={props.style}
             >

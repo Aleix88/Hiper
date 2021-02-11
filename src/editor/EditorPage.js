@@ -12,6 +12,8 @@ import TagEditor from './TagEditor';
 import VideoSettingsEditor from './VideoSettingsEditor';
 import {YOUTUBE_TYPE, VIDEO_TYPE, IMG_TYPE} from '../model/MediaTypes';
 import Hyperimage from './hypervideo/Hyperimage';
+import PluginPage from '../plugin/PluginPage';
+import Plugin from '../model/Plugin';
 
 class EditorPage extends Component {
 
@@ -24,7 +26,8 @@ class EditorPage extends Component {
                 videoTitle: "My hypervideo",
                 height: 390,
                 width: 640
-            }
+            },
+            showPluginEditor: false
         };
         this.__addNewTag = this.__addNewTag.bind(this);
         this.__selectTag = this.__selectTag.bind(this);
@@ -32,6 +35,9 @@ class EditorPage extends Component {
         this.__deleteTag = this.__deleteTag.bind(this);
         this.__handleEditedTag = this.__handleEditedTag.bind(this);
         this.__handleEditedVideo = this.__handleEditedVideo.bind(this);
+        this.openPluginEditor = this.openPluginEditor.bind(this);
+        this.__pluginCanceled = this.__pluginCanceled.bind(this);
+        this.__pluginDone = this.__pluginDone.bind(this);
         this.TAG_REGEX = new RegExp(/^tag-[0-9]+/);
         this.nCreateTags = 0;
         this.hypervideoRef = React.createRef();
@@ -141,6 +147,34 @@ class EditorPage extends Component {
         return Object.assign(Object.create(Object.getPrototypeOf(obj)), obj);
     }
 
+    openPluginEditor() {
+        this.setState(prevState => {
+            return {
+                ...prevState,
+                showPluginEditor: true
+            };
+        });
+    }
+
+    __pluginCanceled() {
+        this.setState(prevState => {
+            return {...prevState, showPluginEditor: false}
+        })
+    }
+
+    __pluginDone(config) {
+        const plugin = new Plugin("None", config);
+        this.setState((prevState) => {
+            let selectedTag = prevState.selectedTag;
+            selectedTag.plugin = plugin;
+            return {
+                ...prevState,
+                selectedTag: selectedTag,
+                showPluginEditor: false
+            };
+        })
+    }
+
     render() {
         return (
             <div className="editor-page">
@@ -192,8 +226,19 @@ class EditorPage extends Component {
                 </div>
                 <div className="config-inspector app-section">
                     <VideoSettingsEditor ref={this.videoEditorRef} editFinished={this.__handleEditedVideo} defaultSettings={this.copyObject(this.state.videoSettings)}/>
-                    <TagEditor ref={this.tagEditorRef} editFinished={this.__handleEditedTag} hideTimeSettings={this.props.projectInfo.mediaType === IMG_TYPE}/>
+                    <TagEditor ref={this.tagEditorRef} editFinished={this.__handleEditedTag} hideTimeSettings={this.props.projectInfo.mediaType === IMG_TYPE} handlePluginEditor={this.openPluginEditor}/>
                 </div>
+                {
+                    this.state.selectedTag ? 
+                    <PluginPage 
+                        isVisible={this.state.showPluginEditor} 
+                        editionCanceled={this.__pluginCanceled} 
+                        editionDone={this.__pluginDone}
+                        plugin={this.state.selectedTag.plugin}
+                    />
+                    :
+                    null
+                }
             </div>
         );
     }

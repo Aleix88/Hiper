@@ -1,0 +1,7 @@
+.codearea {
+    resize: none;
+    border: 2px solid var(--border-gray);
+    border-radius: 8px;
+    outline: none;
+    padding: 1em;
+}
