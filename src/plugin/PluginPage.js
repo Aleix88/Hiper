@@ -27,10 +27,11 @@ const PluginPage = (props) => {
     };
 
     const onCodeChange = (value) => {
+        const regex = new RegExp(/\\/g)
         setState(prevState => {
             return {
                 ...prevState,
-                value: value
+                value: JSON.stringify(value.replaceAll('\n', '')).replace(regex, "")
             }
         });
     };

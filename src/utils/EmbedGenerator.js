@@ -1,6 +1,7 @@
 import FileManager from './FileManager';
 import {YOUTUBE_TYPE, VIDEO_TYPE, IMG_TYPE} from '../model/MediaTypes';
 import { Switch } from 'react-router-dom';
+const dJSON = window.require('dirty-json');
 
 const API_FILE_NAME = "hypervideo.min.js";
 
@@ -45,6 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
 `;
 
 const createTagObject = (tag) => {
+    const pluginConfig = dJSON.parse(tag.plugin.config.substring(1, tag.plugin.config.length - 1)); // Remove start and end semicolons
+    console.log(pluginConfig)
     return (
         {
             position: {
@@ -56,7 +59,10 @@ const createTagObject = (tag) => {
                 duration: tag.duration
             },
             color: tag.color,
-            plugin: {}
+            plugin: {
+                name: tag.plugin.name,
+                config: pluginConfig
+            }
         }
     );
 };
