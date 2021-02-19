@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import validate from '../../model/TagValidator';
 import './CodeArea.css';
 
 class CodeArea extends Component {

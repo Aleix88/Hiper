@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Hypervideo from './hypervideo/Hypervideo';
 import './EditorPage.css';
 import ConfigSection from './config-section/ConfigSection';
@@ -10,10 +9,11 @@ import Tag from './tag/Tag';
 import generateEmbed from '../utils/EmbedGenerator';
 import TagEditor from './TagEditor';
 import VideoSettingsEditor from './VideoSettingsEditor';
-import {YOUTUBE_TYPE, VIDEO_TYPE, IMG_TYPE} from '../model/MediaTypes';
+import {YOUTUBE_TYPE, IMG_TYPE} from '../model/MediaTypes';
 import Hyperimage from './hypervideo/Hyperimage';
 import PluginPage from '../plugin/PluginPage';
 import Plugin from '../model/Plugin';
+import Alert from '../components/alert/Alert';
 
 class EditorPage extends Component {
 
@@ -27,7 +27,8 @@ class EditorPage extends Component {
                 height: 390,
                 width: 640
             },
-            showPluginEditor: false
+            showPluginEditor: false,
+            alert: null
         };
         this.__addNewTag = this.__addNewTag.bind(this);
         this.__selectTag = this.__selectTag.bind(this);
@@ -35,6 +36,7 @@ class EditorPage extends Component {
         this.__deleteTag = this.__deleteTag.bind(this);
         this.__handleEditedTag = this.__handleEditedTag.bind(this);
         this.__handleEditedVideo = this.__handleEditedVideo.bind(this);
+        this.__handleAlertClick = this.__handleAlertClick.bind(this);
         this.openPluginEditor = this.openPluginEditor.bind(this);
         this.__pluginCanceled = this.__pluginCanceled.bind(this);
         this.__pluginDone = this.__pluginDone.bind(this);
@@ -53,11 +55,23 @@ class EditorPage extends Component {
             projectInfo.media,
             projectInfo.mediaType)
         .then (() => {
-            console.log("Done")
+            this.setState(prevState => ({...prevState, alert: {
+                title: "Export successful!", 
+                description: "Open the index.html file in your project folder to see the final result.", 
+                buttonText: "OK"
+            }}))
         })
         .catch ((err) => {
-            console.log(err)
+            this.setState(prevState => ({...prevState, alert: {
+                title: "Export error!", 
+                description: "Please check that your video/image and plugins configurations are ok.", 
+                buttonText: "OK"
+            }}))
         });
+    }
+
+    __handleAlertClick() {
+        this.setState(prevState => ({...prevState, alert: null}))
     }
 
     __addNewTag() {
@@ -162,8 +176,8 @@ class EditorPage extends Component {
         })
     }
 
-    __pluginDone(config) {
-        const plugin = new Plugin("None", config);
+    __pluginDone(config, path, name) {
+        const plugin = new Plugin(path, config, name);
         this.setState((prevState) => {
             let selectedTag = prevState.selectedTag;
             selectedTag.plugin = plugin;
@@ -187,7 +201,6 @@ class EditorPage extends Component {
                     </div>
                 </div>
                 <div className="editor-main">
-                    <Link to="/">Home</Link>
                     {
                         this.props.projectInfo.mediaType === IMG_TYPE ? 
                         <Hyperimage media={this.props.projectInfo.media}>
@@ -236,8 +249,17 @@ class EditorPage extends Component {
                         editionDone={this.__pluginDone}
                         plugin={this.state.selectedTag.plugin}
                     />
-                    :
-                    null
+                    : null
+                }
+                {
+                    this.state.alert ? 
+                    <Alert 
+                        title={this.state.alert.title}
+                        description={this.state.alert.description}
+                        buttonText={this.state.alert.buttonText}
+                        handleClick={this.__handleAlertClick}
+                    />
+                    : null
                 }
             </div>
         );

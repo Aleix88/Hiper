@@ -1,0 +1,21 @@
+.file-browser {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .3em .5em;
+    border: 2px solid var(--border-gray);
+    border-radius: 8px;
+    margin-top: .5em;
+}
+
+.file-browser-text {
+    margin: 0;
+}
+
+.file-browser-text-error {
+    color: red;
+}
+
+.browse-button {
+
+}

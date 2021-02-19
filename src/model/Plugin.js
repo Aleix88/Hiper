@@ -1,10 +1,10 @@
-import PluginPage from "../plugin/PluginPage";
 
 class Plugin {
 
-    constructor(name, config) {
-        this.name = name;
+    constructor(path, config, name) {
+        this.path = path;
         this.config = config;
+        this.name = name;
     }
 
 }

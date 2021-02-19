@@ -10,6 +10,11 @@ const getFileExtension = (fileName) => {
     return parts[parts.length - 1];
 };
 
+const getFileNameFromPath = (path) => {
+    const regex = new RegExp(/^.*[\\\/]/)
+    return path.replace(regex, '');
+};
+
 const isYoutubeURLValid = (url) => {
     return url != null && url.length > 0;
 };
@@ -85,6 +90,10 @@ const showSaveDialog = async (title, nameFieldLabel, buttonLabel, defaultPath) =
     }
 };
 
+const showOpenDialog = () => {
+    return dialog.showOpenDialog({ properties: ['openFile'] })
+};
+
 const isFileImage = (file) => {
     return file && file['type'].split('/')[0] === 'image';
 };
@@ -99,7 +108,9 @@ const fileManager = {
     resolvePath: resolvePath,
     readFile: readFile,
     getResourcesPath: getResourcesPath,
-    isFileImage: isFileImage
+    isFileImage: isFileImage,
+    showOpenDialog: showOpenDialog,
+    getFileNameFromPath: getFileNameFromPath
 };
 
 export default fileManager;
