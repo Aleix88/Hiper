@@ -44,6 +44,7 @@ class EditorPage extends Component {
         this.nCreateTags = 0;
         this.hypervideoRef = React.createRef();
         this.tagEditorRef = React.createRef();
+        this.pluginPageRef = React.createRef();
     }
 
     exportCode() {
@@ -93,27 +94,34 @@ class EditorPage extends Component {
     __selectTag(id) {
         const thisRef = this;
         this.setState(prevState => {
-            const selectedTag = prevState.tags.find(t => t.id === id);
+            const selectedTag = this.copyObject(prevState.tags.find(t => t.id === id));
             thisRef.tagEditorRef.current.setSelectedTag(selectedTag);
             return {
                 ...prevState,
                 selectedTag: selectedTag,
                 tags: prevState.tags.map(t => {
-                    t.isSelected = t.id === id;
-                    return t;
+                    let newTag = this.copyObject(t);
+                    newTag.isSelected = newTag.id === id;
+                    return newTag;
                 })
             }
         });
+        if (this.pluginPageRef.current) {
+            this.pluginPageRef.current.updatePlugin();
+        }
     }
 
     __deleteTag(id) {
         const thisRef = this;
         this.setState(prevState => {
-            const filteredTags = prevState.tags.filter(t => t.id !== id);
+            let filteredTags = prevState.tags.filter(t => t.id !== id).map((t) => this.copyObject(t));
             let selectedTag = null;
             if (filteredTags.length > 0) {
-                thisRef.__selectTag(filteredTags[0].id);
-                selectedTag = filteredTags[0];   
+                selectedTag = this.copyObject(filteredTags[0]);   
+                filteredTags = filteredTags.map(t => {
+                    t.isSelected = t.id === selectedTag.id;
+                    return t;
+                });
             }
             thisRef.tagEditorRef.current.setSelectedTag(selectedTag);
             return {
@@ -122,6 +130,9 @@ class EditorPage extends Component {
                 tags: filteredTags
             };
         });
+        if (this.pluginPageRef.current) {
+            this.pluginPageRef.current.updatePlugin();
+        }
     }
 
     __loadTagLabels() {
@@ -178,18 +189,23 @@ class EditorPage extends Component {
 
     __pluginDone(config, path, name) {
         const plugin = new Plugin(path, config, name);
+        console.log("New plugin: ", plugin)
         this.setState((prevState) => {
-            let selectedTag = prevState.selectedTag;
+            let selectedTag = this.copyObject(prevState.selectedTag);
             selectedTag.plugin = plugin;
+            selectedTag.isSelected = true;
+            let tags = prevState.tags.map(t => t.id === selectedTag.id ? selectedTag : t);
             return {
                 ...prevState,
                 selectedTag: selectedTag,
-                showPluginEditor: false
+                showPluginEditor: false,
+                tags: tags
             };
         })
     }
 
     render() {
+        console.log(this.state.tags)
         return (
             <div className="editor-page">
                 <div className="left-window app-section">
@@ -244,6 +260,7 @@ class EditorPage extends Component {
                 {
                     this.state.selectedTag ? 
                     <PluginPage 
+                        ref={this.pluginPageRef}
                         isVisible={this.state.showPluginEditor} 
                         editionCanceled={this.__pluginCanceled} 
                         editionDone={this.__pluginDone}
