@@ -104,8 +104,8 @@ const generateEmbed = (videoSettings, tagsConfig, projectPath, media, mediaType)
     const hypervideo_id = "hypervideo_id";
     const htmlCode = HTML_TEMPLATE.replace(HYPERVIDEO_ID, hypervideo_id);
     const size = {width: videoSettings.width, height: videoSettings.height};
-    
-    return FileManager.readFile(FileManager.getResourcesPath() + '/data/' + API_FILE_NAME)
+    console.log(FileManager.getResourcesPath());
+    return FileManager.readFile(FileManager.getResourcesPath() + '/libs/' + API_FILE_NAME)
     .then((apiCode) => {
         return FileManager.createFile(projectPath + '/' + API_FILE_NAME, apiCode);
     })
