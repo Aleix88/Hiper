@@ -2,6 +2,7 @@
   "name": "hiper",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
@@ -14,13 +15,28 @@
     "react-youtube": "^7.13.1",
     "web-vitals": "^0.2.4"
   },
-  "main": "src/electron-starter.js",
+  "main": "electron/electron-starter.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\""
+    "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-build": "cp -r electron/. build/electron",
+    "package-all": "electron-builder build --mac --win -c.extraMetadata.main=build/electron/electron-starter.js --publish never",
+    "package-mac": "electron-builder build --mac -c.extraMetadata.main=build/electron/electron-starter.js --publish never",
+    "package-win": "electron-builder build --win -c.extraMetadata.main=build/electron/electron-starter.js --publish never"
+  },
+  "build": {
+    "files": [
+      "build /**/*",
+      "node_modules/**/*"
+    ],
+    "publish": {
+      "provider": "github",
+      "repo": "Hiper",
+      "owner": "Aleix88"
+    }
   },
   "eslintConfig": {
     "extends": [

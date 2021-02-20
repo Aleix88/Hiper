@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import IconButton from '../../components/icon-button/IconButton';
 import './TagLabel.css';
-import deleteIcon from '../../assets/delete.png';
+import deleteIcon from '../../../assets/delete.png';
 
 const TagLabel = (props) => {
 
