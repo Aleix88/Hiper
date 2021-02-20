@@ -6,8 +6,7 @@ class ProgressBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dragStart: false,
-            progress: 0
+            dragStart: false
         };
         this.containerRef = React.createRef();
         this.calculateBarPosition = this.calculateBarPosition.bind(this);
@@ -47,17 +46,15 @@ class ProgressBar extends React.Component {
         progress = progress < 0 ? 0 : progress;
         progress = progress > 1 ? 1: progress;
         progress = Math.floor(progress * 100);
-        this.setState((prevState) => {return {...prevState, progress: progress}})
         this.props.handleChange(progress);
         return progress;
     };
 
-    lengthUpdated() {
-        const currentLength = this.props.currentLength;
+    lengthUpdated(currentLength) {
         let length = currentLength > this.props.maxLength ? this.props.maxLength : currentLength;
         length = currentLength < 0 ? 0 : currentLength;
         const currentProgress = Math.round((parseFloat(length) / parseFloat(this.props.maxLength)) * 100); 
-        this.setState((prevState) => {return {...prevState, progress: currentProgress}})
+        return currentProgress;
     }
 
     componentDidMount() {
@@ -82,14 +79,14 @@ class ProgressBar extends React.Component {
                     <div 
                         className="progress-bar-current"
                         style={{
-                            width: this.state.progress + "%"
+                            width: this.lengthUpdated(this.props.currentLength) + "%"
                         }}
                     />
                 </div>
                 <div 
                     className="progress-cursor"
                     style={{
-                        left: this.state.progress + "%"
+                        left: this.lengthUpdated(this.props.currentLength) + "%"
                     }}
                 />
             </div>

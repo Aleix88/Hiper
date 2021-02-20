@@ -15,8 +15,8 @@ function createWindow () {
     }
   })
   // and load the index.html of the app.
-  if (isDev) {
-    mainWindow.loadURL('http://localhost:3000')
+  if (process.env.ELECTRON_START_URL) {
+    mainWindow.loadURL(process.env.ELECTRON_START_URL)
   } else {
     mainWindow.loadFile(path.join(__dirname, '../index.html'))
   }

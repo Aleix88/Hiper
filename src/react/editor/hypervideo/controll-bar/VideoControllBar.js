@@ -9,20 +9,12 @@ import TimeCounter from './TimeCounter';
 class VideoControllBar extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            currentTime: 0
-        };
         this.progressBarRef = React.createRef();
     }
 
     __handlePlay() {
         this.props.onPlay();
     };
-
-    timeUpdated() {
-        this.setState((prevState) => {return {...prevState, currentTime: this.props.currentTime};})
-        this.progressBarRef.current.lengthUpdated();
-    }
 
     render() {
         return (
@@ -44,13 +36,13 @@ class VideoControllBar extends Component {
                         }}
                         ref={this.progressBarRef}
                         maxLength={this.props.duration}
-                        currentLength={this.state.currentTime}
+                        currentLength={this.props.currentTime}
                         handleChange={this.props.handleProgressChange}
                         onProgressFixed={this.props.handleProgressFixed}
                         isInteractionEnabled={this.props.isInteractionEnabled}
                     />
                     <TimeCounter
-                        currentTime={Math.round(this.state.currentTime)}
+                        currentTime={Math.round(this.props.currentTime)}
                         duration={Math.round(this.props.duration)}
                         style={{
                             display: "inline-block"

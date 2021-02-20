@@ -109,6 +109,11 @@ class EditorPage extends Component {
         if (this.pluginPageRef.current) {
             this.pluginPageRef.current.updatePlugin();
         }
+
+        const selectedTag = this.state.tags.find(t => t.id === id);
+        if (this.hypervideoRef.current && selectedTag) {
+            this.hypervideoRef.current.seekTo(selectedTag.startTime);
+        }
     }
 
     __deleteTag(id) {
