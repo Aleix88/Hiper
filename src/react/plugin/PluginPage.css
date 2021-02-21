@@ -48,3 +48,10 @@
 .plugin-hide {
     display: none;
 }
+
+.web-link {
+    display: inline;
+    color: var(--link-blue);
+    text-decoration: underline;
+    cursor: pointer;
+  }

@@ -98,6 +98,10 @@ const isFileImage = (file) => {
     return file && file['type'].split('/')[0] === 'image';
 };
 
+const openPage = (page) => {
+    electron.shell.openExternal(page);
+};
+
 const fileManager = {
     isYoutubeURLValid: isYoutubeURLValid,
     showSaveDialog: showSaveDialog,
@@ -110,7 +114,8 @@ const fileManager = {
     getResourcesPath: getResourcesPath,
     isFileImage: isFileImage,
     showOpenDialog: showOpenDialog,
-    getFileNameFromPath: getFileNameFromPath
+    getFileNameFromPath: getFileNameFromPath,
+    openPage: openPage
 };
 
 export default fileManager;

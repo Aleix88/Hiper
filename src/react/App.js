@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="app">
       <Router>
-        <SideNavBar exportCode={handleExportecode}/>
+        <SideNavBar exportCode={handleExportecode} isExportEnabled={state.projectInfo != null}/>
         <div className="main">
           <Switch>
             <Route path="/" exact>

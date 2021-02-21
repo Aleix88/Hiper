@@ -23,6 +23,7 @@ class PluginPage extends Component {
         this.browsePlugin = this.browsePlugin.bind(this);
         this.updatePlugin = this.updatePlugin.bind(this);
         this.componentDidUpdate = this.componentDidUpdate.bind(this);
+        this.loadPluginsList = this.loadPluginsList.bind(this);
     }
 
     componentDidUpdate() {
@@ -98,12 +99,16 @@ class PluginPage extends Component {
         });
     };
 
+    loadPluginsList() {
+        FileManager.openPage("https://www.github.com");
+    }
+
     render() {
         return (
             <div className={"plugin-page " + (this.props.isVisible ? "" : "plugin-hide")}>
                 <div className="plugin-modal">
                     <h2 className="plugin-modal-title">Plugin settings</h2>
-                    <div className="plugin-description"> ñaosidf jñasdj fñaosi dfjñaoid jfñaosihfñloashfiuh likuhlsiduah liushd flauhdsflaiuhdaiudhflaiusd lus hlaiduh laiusdlaiduf.</div>
+                    <div className="plugin-description">Check out the list of plugins on: <div className="web-link" onClick={this.loadPluginsList}>Github</div> and follow the instructions.</div>
                     <FileBrowser 
                         onBrowse={this.browsePlugin} 
                         textContent={FileManager.getFileNameFromPath(this.props.plugin.path !== this.state.swpPath ? this.state.swpPath : this.props.plugin.path)}
