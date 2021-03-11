@@ -12,7 +12,9 @@ Hiper is a graphical interface for [Hypervideo.js](https://github.com/Aleix88/Hy
 <div>
     <img src="https://github.com/Aleix88/Hiper/blob/main/readme_assets/hiper_snap2.png?raw=true">
 </div>
+
 ## Download links
+
 <div>
     <a href="https://github.com/Aleix88/Hiper/releases" download="download">Download here!</a>
 </div>
